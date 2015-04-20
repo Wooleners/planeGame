@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>阿飞正赚</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+        <script type="text/javascript" src="cocos2d-js-v3.1-lite.js" charset="uft-8"></script>
+        <script type="text/javascript" src="src/main.js" charset="uft-8"></script>
+
+        <style>
+
+            html,body{ width: 100%; height:100%; overflow: hidden;font-family: 'MyFont',Arial,sans-serif;}
+            @-webkit-keyframes fadeIn {
+                0% {
+                    opacity: 0; /*初始状态 透明度为0*/
+                }
+                50% {
+                    opacity: 0; /*中间状态 透明度为0*/
+                }
+                100% {
+                    opacity: 1; /*结尾状态 透明度为1*/
+                }
+            }
+            .fadeinn{-webkit-animation-name: fadeIn; /*动画名称*/
+                     -webkit-animation-duration: 0.5s; /*动画持续时间*/
+                     -webkit-animation-iteration-count: 1; /*动画次数*/
+                     -webkit-animation-delay: 0s; /*延迟时间*/
+                     animation-name: fadeIn; /*动画名称*/
+                     animation-duration: 0.5s; /*动画持续时间*/
+                     animation-iteration-count: 1; /*动画次数*/
+                     animation-delay: 0s; /*延迟时间*/
+            }
+
+
+        </style>
+    </head>
+    <body> 
+        <canvas id="gameCanvas" width="100%" height="100%"></canvas>
+    </body>
+</html>
