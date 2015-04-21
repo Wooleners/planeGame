@@ -2,7 +2,7 @@ var GameLayer = cc.Layer.extend({
     //定义常量
     TIME: 20,
     _context: null,
-    _progressTime: null, //检测多久没有点击火箭
+    _progressTime: null, //倒计时bar
     _pause: null, //是否停止点击
     _progressTimeScheduler: null,
     _updateScheduler: null,
@@ -22,7 +22,7 @@ var GameLayer = cc.Layer.extend({
     },
     init: function() {
         this._super();
-        this._progressTime = 0;
+        
         this._score = 0;
         this._time = this.TIME;
         var __rocket = this._rocket = new rocket(s_rocket);
@@ -36,17 +36,41 @@ var GameLayer = cc.Layer.extend({
         this.addChild(__rocket, 1);
         //初始化所有
         //加载成绩对象
-        this._mScoreLabel = cc.LabelTTF.create("000000米", "Courier", 20);
+        this._mScoreLabel = cc.LabelTTF.create("000000米", "Courier", 32);
         this._mScoreLabel.setAnchorPoint(0.5, 0.5);
-        this._mScoreLabel.setPosition(size.width - 100, size.height - 35);
-        this._mScoreLabel.setColor(cc.color(255, 255, 255));
+        this._mScoreLabel.setPosition(size.width - 100, size.height - 70);
+        this._mScoreLabel.setColor(cc.color(255, 102, 0));
         this.addChild(this._mScoreLabel, 1);
+        //加载倒计时bar
+        var __bar = new cc.Sprite(s_bar);
+        var __barSize = __bar.getContentSize();
+        __bar.setAnchorPoint(0.5, 0.5);
+        __bar.setPosition(size.width / 2, size.height - 120);
+        this.addChild(__bar);
         //加载倒计时对象
-        this._mTimeLabel = cc.LabelTTF.create(20, "Courier", 80);
+        this._mTimeLabel = cc.LabelTTF.create(20, "Courier", 60);
         this._mTimeLabel.setAnchorPoint(0.5, 0.5);
-        this._mTimeLabel.setPosition(size.width / 2, size.height - 35);
+        this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 10);
         this._mTimeLabel.setColor(cc.color(255, 255, 255));
-        this.addChild(this._mTimeLabel, 1);
+        __bar.addChild(this._mTimeLabel, 1);
+        
+        // this._progressTime = new cc.ProgressTimer(new cc.Sprite(pg_game_a_png));
+        // this._progressTime.type = cc.ProgressTimer.TYPE_BAR;
+        // this._progressTime.midPoint = cc.p(0, 1);
+        // this._progressTime.barChangeRate = cc.p(1, 0);
+        // this._progressTime.percentage = 100;
+        
+        
+        // var top = 101;
+        
+        // this._progressTime.x = 12;
+        // this._progressTime.y = cc.winSize.height - top * window.game.scale;
+        // //console.log(this._progressTime.y);
+        // this._progressTime.setScale(window.game.scale, window.game.scale);
+        // console.log(window.game.scale);
+        // this._progressTime.anchorX = 0;
+        // this._progressTime.anchorY = 0;
+        // this.addChild(this._progressTime);
         // 启动提示计时器
         this.schedule(this.updateTime);
         this.schedule(this.checkOut, 0.1);
@@ -116,15 +140,23 @@ var GameLayer = cc.Layer.extend({
         var __temp = 2;
         var __dir = __leaveH / 2;
         //__dir > __maxX / 2 ? __maxX / 2 : __dir;
-        var __speed = __dir / 1000;
-        if (__pos.x > __maxX - __rocketSize.width) {
-            this._rocket.stopAllActions();
-            var __startPos = cc.p(__pos.x - __dir, __leaveH / 4 + __pos.y);
-            this._rocket.moveTo(__speed, __startPos, 1, -100);
+        var __speed = __dir / 2000;
+        if (__pos.x > __maxX - __rocketSize.width) { 
+            if(!this._rocket.fantan){
+                this._rocket.fantan = 1;
+                this._rocket.stopAllActions();
+                var __startPos = cc.p(__pos.x - __dir, __leaveH / 2 + __pos.y);
+                this._rocket.moveTo(__speed, __startPos, 1, -100);
+            }
+            
         } else if (__pos.x < 0) {
-            this._rocket.stopAllActions();
-            var __startPos = cc.p(__pos.x + __dir, __leaveH / 4 + __pos.y);
-            this._rocket.moveTo(__speed, __startPos, 1, 100);
+            if(!this._rocket.fantan){
+                this._rocket.fantan = 1;
+                this._rocket.stopAllActions();
+                var __startPos = cc.p(__pos.x + __dir, __leaveH / 2 + __pos.y);
+                this._rocket.moveTo(__speed, __startPos, 1, 100);
+            }
+            
         }
     },
     checkTime: function() {

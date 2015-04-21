@@ -6,21 +6,22 @@ var rocket = cc.Sprite.extend({
 	},
 	init: function() {
 		//常量定义
-		var STARTSPEED = 0.4;
-		var DOWNSPEED = 0.7;
+		var STARTSPEED = 0.2;
+		var DOWNSPEED = 0.5;
 		var FIRSTHEIGHT = 2000;
 
 		//共有属性
 		this.startSpeed = STARTSPEED; //火箭启动速度
 		this.downSpeed = DOWNSPEED; //火箭熄火降落速度
 		this.starting = 0; //火箭起飞状态
-		this.isDown = 0; //火箭飞行状态
+		this.isDown = 1; //火箭飞行状态
 		this.speed = 10; //火箭飞行速度
 		this.power = false; //用户是否点击给火箭添加燃料
 		this.first = 1;
 		this.firstJump = FIRSTHEIGHT;
 		this.jump = parseInt(cc.winSize.height / 2.5);
 		this.jumpSY = 0;
+		this.fantan = 0; //是否被反弹
 		// 设置触摸的侦听事件，以便让火箭响应触摸操作
 		var touchListener = cc.EventListener.create({
 			event: cc.EventListener.TOUCH_ONE_BY_ONE, // 单次点击
@@ -63,7 +64,7 @@ var rocket = cc.Sprite.extend({
 			//window.game.GameLayer._progressTime = 0;
 			//window.game.GameLayer._time = window.game.GameLayer.SLOWTIME;
 			//window.game.GameLayer._pause = 0;
-			if (!__rocket.starting) {
+			if (!__rocket.starting && this.isDown) {
 				if(__locationInNode.x < __p.x + __s.width / 2){
 					__direction = 0;
 				}else{
@@ -90,9 +91,17 @@ var rocket = cc.Sprite.extend({
 		__dir *= offsetX;
 		var __startPos = cc.p(__pos.x + __dir, __pos.y + __jump);
 		//this.speed = 5;
+		if(this.fantan == 1){
+					this.fantan = 0;
+					console.log(111);
+				}
 		this.starting = 1;
 		this.stopAllActions();
 		this.jumpSY = __pos.y;
+		this.isDown = 0;
+		// if(this.first){
+		// 	this.startSpeed = 0.8;
+		// }
 		this.moveTo(this.startSpeed, __startPos, 1, __dir);
 		
 	},
@@ -107,7 +116,7 @@ var rocket = cc.Sprite.extend({
 		if(this.first){
 			offsetX = 0;
 		}
-		var __startPos = cc.p(__posX + offsetX, -100);
+		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height);
 		
 		this.isDown = 1;
 		this.first = 0;
@@ -120,17 +129,18 @@ var rocket = cc.Sprite.extend({
 		if (fly) {
 			var __action = cc.sequence(cc.moveTo(duration, position), cc.callFunc(function() {
 				__self.flying = 1;
-				__self.isDown = 0;
+				
 				console.log(1);
 				this.starting = 0;
 				this.down(offsetX);
+				
 				
 			}, this));
 		} else {
 
 			var __move;
 			if(this.first){
-				__move = cc.moveTo(duration, position);
+				__move = cc.moveTo(duration, position).easing(cc.easeIn(2));
 			}else{
 				__move = cc.moveTo(duration, position).easing(cc.easeIn(2));
 			}
