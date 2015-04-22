@@ -13,6 +13,7 @@ var GameLayer = cc.Layer.extend({
     _time: null, //时间
     _gold: null, //金币对象
     _goldText: null, //金币文案
+    _mListener1: null,  //自定义事件
     ctor: function(a) {
         this._super();
         this._context = a;
@@ -53,7 +54,17 @@ var GameLayer = cc.Layer.extend({
         this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 10);
         this._mTimeLabel.setColor(cc.color(255, 255, 255));
         __bar.addChild(this._mTimeLabel, 1);
-        
+        // 接收自定义事件
+        var __self = this;
+        this.mListener1 = cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: "DEAD",
+            callback: function(event){
+                var pPattern = event.getUserData();
+                __self.gameover();
+            }
+        });
+        cc.eventManager.addListener(this.mListener1, 1);
         // this._progressTime = new cc.ProgressTimer(new cc.Sprite(pg_game_a_png));
         // this._progressTime.type = cc.ProgressTimer.TYPE_BAR;
         // this._progressTime.midPoint = cc.p(0, 1);
@@ -200,6 +211,24 @@ var GameLayer = cc.Layer.extend({
         this._rocket.stopAllActions();
         cc.director.pause();
     },
+    gameover: function(){
+        alert("游戏结束得分:" + this._score);
+        this._rocket.stopAllActions();
+        cc.director.pause();
+        document.getElementById("Cocos2dGameContainer").style.display = "none";
+        document.getElementById("restart").style.display = "block";
+        document.getElementById("restart").onclick = function(e){
+            document.getElementById("Cocos2dGameContainer").style.display = "block";
+            var nextScene = cc.Scene.create();
+            var __gameBgLayer = new GameBgLayer();
+            nextScene.addChild(__gameBgLayer);
+            var __gameBgLayer;
+            window.game.GameLayer = __gameBgLayer = new GameLayer();
+            nextScene.addChild(__gameBgLayer);
+            cc.director.runScene(nextScene);
+            cc.director.resume();
+        }
+    },
     startGame: function() {
-    }
+    },
 });

@@ -46,17 +46,17 @@ var rocket = cc.Sprite.extend({
 	},
 	onPatternTouchBegan: function(touch, event) {
 		var __target = event.getCurrentTarget();
-        var __locationInNode = touch.getLocation();
-        var __s = __target.getContentSize();
-        var __p = __target.getPosition();
-        var __rect = cc.rect(__p.x, __p.y, __s.width, __s.height);
-        var __direction = 1;	//0左1右
-        var __offsetX = 0;
-        if (cc.rectContainsPoint(__rect, __locationInNode)){
-        	var __rocket = this;
-			if(this.first){
-				__rocket.speed  = 40;
-				
+		var __locationInNode = touch.getLocation();
+		var __s = __target.getContentSize();
+		var __p = __target.getPosition();
+		var __rect = cc.rect(__p.x, __p.y, __s.width, __s.height);
+		var __direction = 1; //0左1右
+		var __offsetX = 0;
+		if (cc.rectContainsPoint(__rect, __locationInNode)) {
+			var __rocket = this;
+			if (this.first) {
+				__rocket.speed = 40;
+
 			}
 			// if (__rocket.speed < 30) {
 			// 	__rocket.speed += 5;
@@ -65,36 +65,36 @@ var rocket = cc.Sprite.extend({
 			//window.game.GameLayer._time = window.game.GameLayer.SLOWTIME;
 			//window.game.GameLayer._pause = 0;
 			if (!__rocket.starting && this.isDown) {
-				if(__locationInNode.x < __p.x + __s.width / 2){
+				if (__locationInNode.x < __p.x + __s.width / 2) {
 					__direction = 0;
-				}else{
+				} else {
 					__direction = 1;
 				}
 				__offsetX = Math.abs(__p.x + __s.width / 2 - __locationInNode.x);
 				__rocket.up(__direction, __offsetX);
 			}
-        }else{
-        	return false;
-        }
-		
+		} else {
+			return false;
+		}
+
 		return true;
 	},
-	onPatternTouchEnded: function(){
+	onPatternTouchEnded: function() {
 		window.game.GameLayer._pause = 1;
 	},
 	up: function(direction, offsetX) {
 		var __pos = this.getPosition();
 		var __jump = this.first ? this.firstJump : this.jump;
 		// 按照设定的几率值，随机产生偏移值
-        var __temp = (0 | (Math.random() * 10000)%3) + 2;
+		var __temp = (0 | (Math.random() * 10000) % 3) + 2;
 		var __dir = direction ? -__temp : __temp;
 		__dir *= offsetX;
 		var __startPos = cc.p(__pos.x + __dir, __pos.y + __jump);
 		//this.speed = 5;
-		if(this.fantan == 1){
-					this.fantan = 0;
-					console.log(111);
-				}
+		if (this.fantan == 1) {
+			this.fantan = 0;
+			console.log(111);
+		}
 		this.starting = 1;
 		this.stopAllActions();
 		this.jumpSY = __pos.y;
@@ -103,21 +103,21 @@ var rocket = cc.Sprite.extend({
 		// 	this.startSpeed = 0.8;
 		// }
 		this.moveTo(this.startSpeed, __startPos, 1, __dir);
-		
+
 	},
 	down: function(offsetX) {
-		var __posX = this.getPositionX(); 
+		var __posX = this.getPositionX();
 		var __speed;
-		if(this.first){
+		if (this.first) {
 			__speed = 2;
-		}else{
+		} else {
 			__speed = this.downSpeed;
 		}
-		if(this.first){
+		if (this.first) {
 			offsetX = 0;
 		}
 		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height);
-		
+
 		this.isDown = 1;
 		this.first = 0;
 		//this.stopAllActions();
@@ -129,22 +129,22 @@ var rocket = cc.Sprite.extend({
 		if (fly) {
 			var __action = cc.sequence(cc.moveTo(duration, position), cc.callFunc(function() {
 				__self.flying = 1;
-				
+
 				console.log(1);
 				this.starting = 0;
 				this.down(offsetX);
-				
-				
+
+
 			}, this));
 		} else {
 
 			var __move;
-			if(this.first){
+			if (this.first) {
 				__move = cc.moveTo(duration, position).easing(cc.easeIn(2));
-			}else{
+			} else {
 				__move = cc.moveTo(duration, position).easing(cc.easeIn(2));
 			}
-			
+
 			var __action = cc.sequence(__move, cc.callFunc(function() {
 				//this.starting = 0;
 				//__self.isDown = 0;
@@ -156,11 +156,12 @@ var rocket = cc.Sprite.extend({
 		this.runAction(__action);
 
 	},
-	dead: function(){
-		alert("游戏结束得分:" + window.game.GameLayer._score);
-		this.stopAllActions();
-		cc.director.pause();
+	dead: function() {
 		
+		//通知gameLayer火箭死亡
+		var event = new cc.EventCustom("DEAD");
+		event.setUserData(this);
+		cc.eventManager.dispatchEvent(event);
 	}
 
 });
