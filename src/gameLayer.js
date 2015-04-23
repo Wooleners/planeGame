@@ -13,13 +13,17 @@ var GameLayer = cc.Layer.extend({
     _time: null, //时间
     _gold: null, //金币对象
     _goldText: null, //金币文案
+    _gold1: null,
+    _gold2: null,
     _mListener1: null,  //自定义事件
+    _arrowDown: null, //箭头
+    _tips: null,    //提示文案
+    _startTimer: null,  //是否开始计时
     ctor: function(a) {
         this._super();
         this._context = a;
         this.init();
         this.startGame();
-
     },
     init: function() {
         this._super();
@@ -37,23 +41,57 @@ var GameLayer = cc.Layer.extend({
         this.addChild(__rocket, 1);
         //初始化所有
         //加载成绩对象
-        this._mScoreLabel = cc.LabelTTF.create("000000米", "Courier", 32);
+        this._mScoreLabel = cc.LabelTTF.create("000000米", "微软雅黑", 32);
         this._mScoreLabel.setAnchorPoint(0.5, 0.5);
-        this._mScoreLabel.setPosition(size.width - 100, size.height - 70);
-        this._mScoreLabel.setColor(cc.color(255, 102, 0));
+        this._mScoreLabel.setPosition(size.width - 90, size.height - 116);
+        this._mScoreLabel.setColor(cc.color(255, 255, 255));
         this.addChild(this._mScoreLabel, 1);
         //加载倒计时bar
         var __bar = new cc.Sprite(s_bar);
         var __barSize = __bar.getContentSize();
         __bar.setAnchorPoint(0.5, 0.5);
-        __bar.setPosition(size.width / 2, size.height - 120);
+        __bar.setPosition(__barSize.width + 18, size.height - __barSize.height);
         this.addChild(__bar);
+        //加载分数bar
+        var __scorebar = new cc.Sprite(s_scoreBar);
+        var __scorebarSize = __bar.getContentSize();
+        __scorebar.setAnchorPoint(1, 0.5);
+        __scorebar.setPosition(size.width, size.height - 116);
+        this.addChild(__scorebar);
         //加载倒计时对象
-        this._mTimeLabel = cc.LabelTTF.create(20, "Courier", 60);
+        this._mTimeLabel = cc.LabelTTF.create(20, "微软雅黑", 60);
         this._mTimeLabel.setAnchorPoint(0.5, 0.5);
-        this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 10);
+        this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 6);
         this._mTimeLabel.setColor(cc.color(255, 255, 255));
         __bar.addChild(this._mTimeLabel, 1);
+        //加载提示器 
+        var __tip =  this._tips = new cc.Sprite(s_tips);
+        __tip.setAnchorPoint(0.5, 0.5);
+        __tip.setPosition(size.width / 2, __rocketSize.height + 30 + 135);
+        this.addChild(__tip);
+        //加载提示器手势
+        var __arr = this._arrowDown = new cc.Sprite(s_arrowDown);
+        __arr.setAnchorPoint(0.5, 0.5);
+        __arr.setPosition(size.width / 2, __rocketSize.height + 30 + 38);
+        this.addChild(__arr);
+        var __arrPos = __arr.getPosition();
+        var __startPos = cc.p(__arrPos.x, __arrPos.y - 10);
+        var __arrmoveD = cc.moveTo(0.3, __startPos);
+        var __endPos = cc.p(__arrPos.x, __arrPos.y);
+        var ____arrmoveU = cc.moveTo(0.3, __endPos);
+        var __action = cc.sequence(__arrmoveD, ____arrmoveU);
+        __arr.runAction(cc.repeatForever(__action));
+        //生成背景金币
+        var __gold1 = this._gold1 = new cc.Sprite(s_gold);
+        __tip.setAnchorPoint(0.5, 0.5);
+        __gold1.x = 35;
+        __gold1.y = 33;
+        this.addChild(__gold1, 1);
+        var __gold2 = this._gold2 = new cc.Sprite(s_gold);
+        __tip.setAnchorPoint(0.5, 0.5);
+        __gold2.x = size.width - 20;
+        __gold2.y = 180;
+        this.addChild(__gold2, 1);
         // 接收自定义事件
         var __self = this;
         this.mListener1 = cc.EventListener.create({
@@ -171,7 +209,9 @@ var GameLayer = cc.Layer.extend({
         }
     },
     checkTime: function() {
-        this._time--;
+        if(this._startTimer){
+            this._time--;
+        }
         if (this._time <= 0) {
             this.win();
             return;
@@ -212,7 +252,7 @@ var GameLayer = cc.Layer.extend({
         cc.director.pause();
     },
     gameover: function(){
-        alert("游戏结束得分:" + this._score);
+        
         this._rocket.stopAllActions();
         cc.director.pause();
         document.getElementById("Cocos2dGameContainer").style.display = "none";

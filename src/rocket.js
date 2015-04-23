@@ -71,7 +71,17 @@ var rocket = cc.Sprite.extend({
 					__direction = 1;
 				}
 				__offsetX = Math.abs(__p.x + __s.width / 2 - __locationInNode.x);
+				if (this.first) {
+					__rocket.speed = 40;
+					__offsetX = 0;
+				}
 				__rocket.up(__direction, __offsetX);
+				//隐藏第一屏元素
+				window.game.GameLayer._startTimer = 1;
+				window.game.GameLayer._arrowDown.removeFromParent(!0);
+				window.game.GameLayer._tips.removeFromParent(!0);
+				window.game.GameLayer._gold1.removeFromParent(!0);
+				window.game.GameLayer._gold2.removeFromParent(!0);
 			}
 		} else {
 			return false;
