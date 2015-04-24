@@ -11,7 +11,8 @@ var GameLayer = cc.Layer.extend({
     _score: null, //得分
     _rocket: null, //火箭对象
     _time: null, //时间
-    _gold: null, //金币对象
+    _goldList: null, //金币对象
+    _golds: null, //出现金币数量
     _goldText: null, //金币文案
     _gold1: null,
     _gold2: null,
@@ -19,6 +20,9 @@ var GameLayer = cc.Layer.extend({
     _arrowDown: null, //箭头
     _tips: null,    //提示文案
     _startTimer: null,  //是否开始计时
+    _maxGold: null,     //最大金币数
+    _cash: null,    //现金
+    _frameRate: null,   //帧数
     ctor: function(a) {
         this._super();
         this._context = a;
@@ -27,8 +31,12 @@ var GameLayer = cc.Layer.extend({
     },
     init: function() {
         this._super();
-        
+        this._maxGold = 3;
+        this.golds = 0;
+        this._goldList = [];
         this._score = 0;
+        this._cash = 1;
+        this._frameRate = 0;
         this._time = this.TIME;
         var __rocket = this._rocket = new rocket(s_rocket);
         __rocket.init();
@@ -103,26 +111,10 @@ var GameLayer = cc.Layer.extend({
             }
         });
         cc.eventManager.addListener(this.mListener1, 1);
-        // this._progressTime = new cc.ProgressTimer(new cc.Sprite(pg_game_a_png));
-        // this._progressTime.type = cc.ProgressTimer.TYPE_BAR;
-        // this._progressTime.midPoint = cc.p(0, 1);
-        // this._progressTime.barChangeRate = cc.p(1, 0);
-        // this._progressTime.percentage = 100;
-        
-        
-        // var top = 101;
-        
-        // this._progressTime.x = 12;
-        // this._progressTime.y = cc.winSize.height - top * window.game.scale;
-        // //console.log(this._progressTime.y);
-        // this._progressTime.setScale(window.game.scale, window.game.scale);
-        // console.log(window.game.scale);
-        // this._progressTime.anchorX = 0;
-        // this._progressTime.anchorY = 0;
-        // this.addChild(this._progressTime);
+
         // 启动提示计时器
         this.schedule(this.updateTime);
-        this.schedule(this.checkOut, 0.1);
+        //this.schedule(this.checkOut, 0.1);
         this.schedule(this.checkTime, 1);
         // for (var a = [], b = 0; 3 > b; b++) {
         //     //var c = cc.spriteFrameCache.getSpriteFrame("images/run" + b + ".png");
@@ -135,6 +127,7 @@ var GameLayer = cc.Layer.extend({
 
     },
     updateTime: function() {
+        this._frameRate++;
         if (!this._rocket.first) {
             var __y1 = BG1.getPositionY();
             var __y2 = BG2.getPositionY();
@@ -166,47 +159,56 @@ var GameLayer = cc.Layer.extend({
             this._mScoreLabel.setString(__zeroText + this._score + "米");
 
             //金币碰撞检测
-            if (this._gold) {
-
-                var __goldBox = this._gold.getBoundingBox();
-                var __rocketBox = this._rocket.getBoundingBox();
-                if (cc.rectIntersectsRect(__goldBox, __rocketBox)) {
-                    //发生碰撞事件
-                    this._gold.removeFromParent(!0);
-                    this._gold = null;
-                    this.createGoldText(__goldBox);
+            var __goldCount = this._goldList.length;
+            if (__goldCount > 0) {
+                for(var i = 0; i < __goldCount; i++){
+                    if(this._goldList[i]){
+                        var __gold = this._goldList[i];
+                        var __goldBox = __gold.getBoundingBox();
+                        var __rocketBox = this._rocket.getBoundingBox();
+                        if (cc.rectIntersectsRect(__goldBox, __rocketBox)) {
+                            //发生碰撞事件
+                            __gold.removeFromParent(!0);
+                            this._goldList.splice(i, 1);
+                            this.createGoldText(__goldBox);
+                        }
+                    }
+                    
                 }
+            }
+        }
+        if(this._frameRate % 10 == 0){
+            var __maxX = cc.winSize.width;
+            var __maxY = cc.winSize.height;
+            var __pos = this._rocket.getPosition();
+            var __rocketSize = this._rocket.getContentSize();
+            var __leaveH = this._rocket.jumpSY + this._rocket.jump - __pos.y;
+            // 按照设定的几率值，随机产生偏移值
+            var __temp = 2;
+            var __dir = __leaveH / 2;
+            //__dir > __maxX / 2 ? __maxX / 2 : __dir;
+            var __speed = __dir / 2000;
+            if (__pos.x >= __maxX - __rocketSize.width && __pos.y > 100) { 
+                if(!this._rocket.fantan){
+                    this._rocket.fantan = 1;
+                    this._rocket.stopAllActions();
+                    var __startPos = cc.p(__pos.x - __dir, __leaveH / 2 + __pos.y);
+                    this._rocket.moveTo(__speed, __startPos, 1, -100);
+                }
+                
+            } else if (__pos.x <= 0 && __pos.y > 100) {
+                if(!this._rocket.fantan){
+                    this._rocket.fantan = 1;
+                    this._rocket.stopAllActions();
+                    var __startPos = cc.p(__pos.x + __dir, __leaveH / 2 + __pos.y);
+                    this._rocket.moveTo(__speed, __startPos, 1, 100);
+                }
+                
             }
         }
     },
     checkOut: function() {
-        var __maxX = cc.winSize.width;
-        var __maxY = cc.winSize.height;
-        var __pos = this._rocket.getPosition();
-        var __rocketSize = this._rocket.getContentSize();
-        var __leaveH = this._rocket.jumpSY + this._rocket.jump - __pos.y;
-        // 按照设定的几率值，随机产生偏移值
-        var __temp = 2;
-        var __dir = __leaveH / 2;
-        //__dir > __maxX / 2 ? __maxX / 2 : __dir;
-        var __speed = __dir / 2000;
-        if (__pos.x > __maxX - __rocketSize.width) { 
-            if(!this._rocket.fantan){
-                this._rocket.fantan = 1;
-                this._rocket.stopAllActions();
-                var __startPos = cc.p(__pos.x - __dir, __leaveH / 2 + __pos.y);
-                this._rocket.moveTo(__speed, __startPos, 1, -100);
-            }
-            
-        } else if (__pos.x < 0) {
-            if(!this._rocket.fantan){
-                this._rocket.fantan = 1;
-                this._rocket.stopAllActions();
-                var __startPos = cc.p(__pos.x + __dir, __leaveH / 2 + __pos.y);
-                this._rocket.moveTo(__speed, __startPos, 1, 100);
-            }
-            
-        }
+        
     },
     checkTime: function() {
         if(this._startTimer){
@@ -215,8 +217,13 @@ var GameLayer = cc.Layer.extend({
         if (this._time <= 0) {
             this.win();
             return;
-        } else if (this._time == 18) {
-            this.createGold();
+        } else if(this._time < this.TIME){
+            var __random = this.random(5);
+            if(__random == 1 && this.golds < this._maxGold){
+                this.golds++;
+                this.createGold();
+            }
+            
         }
         this._mTimeLabel.setString(this._time);
     },
@@ -234,17 +241,29 @@ var GameLayer = cc.Layer.extend({
         __goldText.runAction(__action);
     },
     createGold: function() {
-        var __gold = this._gold = new cc.Sprite(s_gold);
+        var __random = this.random(2), __face = s_gold;
+        if(__random == 1 && this._cash){
+            __face = s_cash;
+            this._cash--;
+        }
+        var __gold = new cc.Sprite(__face);
         var __goldtSize = __gold.getContentSize();
         var size = cc.winSize;
         // 按照设定的几率值，随机产生偏移值
-        var __tempX = (0 | (Math.random() * 10000) % (size.width - __goldtSize.width));
-        var __tempY = (0 | (Math.random() * 10000) % (size.height - __goldtSize.height));
+        var __tempX = this.random(size.width - __goldtSize.width);
+        var __tempY = this.random(size.height - __goldtSize.height - 250) + 100;
         __gold.anchorX = 0;
         __gold.anchorY = 0;
         __gold.x = __tempX;
         __gold.y = __tempY;
+        __gold.setOpacity(0);
         this.addChild(__gold, 1);
+        __gold.runAction(new cc.FadeIn(1));
+        
+        this._goldList.push(__gold);
+    },
+    random: function(value){
+        return (0 | (Math.random() * 10000) % value);
     },
     win: function() {
         alert("游戏胜利!");

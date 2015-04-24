@@ -6,6 +6,7 @@ var s_bar = "timebar.png";
 var s_scoreBar = "scorebar.png";
 var s_tips = "tips.png";
 var s_arrowDown = "arrowDown.png";
+var s_cash = "cash.png";
 var g_resources = [
     //image
     s_bg,
@@ -15,7 +16,8 @@ var g_resources = [
     s_bar,
     s_scoreBar,
     s_tips,
-    s_arrowDown
+    s_arrowDown,
+    s_cash
     //plist
 
     //fnt

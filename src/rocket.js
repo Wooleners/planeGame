@@ -9,10 +9,12 @@ var rocket = cc.Sprite.extend({
 		var STARTSPEED = 0.2;
 		var DOWNSPEED = 0.5;
 		var FIRSTHEIGHT = 2000;
+		var FIRSTDOWNSPEED = 3;
 
 		//共有属性
 		this.startSpeed = STARTSPEED; //火箭启动速度
 		this.downSpeed = DOWNSPEED; //火箭熄火降落速度
+		this.firstDownSpeed = FIRSTDOWNSPEED; 
 		this.starting = 0; //火箭起飞状态
 		this.isDown = 1; //火箭飞行状态
 		this.speed = 10; //火箭飞行速度
@@ -72,7 +74,7 @@ var rocket = cc.Sprite.extend({
 				}
 				__offsetX = Math.abs(__p.x + __s.width / 2 - __locationInNode.x);
 				if (this.first) {
-					__rocket.speed = 40;
+					
 					__offsetX = 0;
 				}
 				__rocket.up(__direction, __offsetX);
@@ -103,7 +105,6 @@ var rocket = cc.Sprite.extend({
 		//this.speed = 5;
 		if (this.fantan == 1) {
 			this.fantan = 0;
-			console.log(111);
 		}
 		this.starting = 1;
 		this.stopAllActions();
@@ -119,7 +120,8 @@ var rocket = cc.Sprite.extend({
 		var __posX = this.getPositionX();
 		var __speed;
 		if (this.first) {
-			__speed = 2;
+			//第一次下落速度
+			__speed = this.firstDownSpeed;
 		} else {
 			__speed = this.downSpeed;
 		}
@@ -140,7 +142,7 @@ var rocket = cc.Sprite.extend({
 			var __action = cc.sequence(cc.moveTo(duration, position), cc.callFunc(function() {
 				__self.flying = 1;
 
-				console.log(1);
+				
 				this.starting = 0;
 				this.down(offsetX);
 
@@ -159,7 +161,7 @@ var rocket = cc.Sprite.extend({
 				//this.starting = 0;
 				//__self.isDown = 0;
 				this.dead();
-				console.log(2);
+			
 			}, this));
 		}
 
