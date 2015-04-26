@@ -16,7 +16,21 @@ window.onload = function() {
         // 设置游戏视图按指定大小满屏显示
         cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
         cc.LoaderScene.preload(g_resources, function() {
-            //document.getElementById("startgame").style.display = "block";
+            $("#barline").addClass("barline2");
+            $("#barImg").addClass("barImg2");
+
+            var l = 75;
+            var t = setInterval(function(){
+                l++;
+                if(l <= 100){
+                    $("#loadingC").html(l);
+                }else{
+                    $("#loading").hide();
+                    $("#Cocos2dGameContainer").show();
+                    clearInterval(t);
+                }
+                
+            }, 1000/75);
             window.MyScene = cc.Scene.extend({
                 onEnter: function() {
                     this.scheduleUpdate();

@@ -210,6 +210,7 @@ visibility: hidden ;
 	width:64%;
 	position:relative;
 	margin-left:20%;
+	font-size:14px;
 }
 
 .yunmain{
@@ -287,6 +288,8 @@ visibility: hidden ;
 }
 
 .btnOrange{
+	text-decoration: none;
+	display: block;
 	width:100%;
 	background:#ff6600;
 	height:46px;
@@ -294,31 +297,33 @@ visibility: hidden ;
 	line-height:46px;
 	color:#fff;
 	text-align:center;
-	font-size:22px;
-
+	font-size:20px;
+	cursor: pointer;
 
 }
 
 .btnBlue{
+	text-decoration: none;
+	display: block;
 	width:100%;
 	background:#5999e4;
-	height:50px;
+	height:46px;
 	margin-top:26px;
 	line-height:44px;
 	color:#fff;
 	text-align:center;
-	font-size:22px;
-
+	font-size:20px;
+	cursor: pointer;
 }
 
 .mar{margin-top:18px;}
 
 .tipsC{
-	width:100%;
-
-	text-align:center;
-	margin-top:8px;
-	color:#2875d1;
+	width: 130%;
+  text-align: center;
+  margin-top: 8px;
+  color: #2875d1;
+  margin-left: -15%;
 }
 
 .flylist{
@@ -328,11 +333,11 @@ visibility: hidden ;
 	margin-top:25px;
 	color:#fff;
 	padding-top:20px;
-	font-size: 16px;padding-bottom:40px;
+	padding-bottom:40px;
 }
 
 .flytip{
-	
+	font-size: 14px;
 }
 
 .flylist img{
@@ -355,6 +360,7 @@ visibility: hidden ;
 	position:relative;
 	top:-5px;
 	padding-left:5%;
+	font-size: 14px;
 }
 
 .main {
@@ -375,7 +381,7 @@ z-index: 1000;
 .btnactivelinke{
 	width:100%;
 	height:50px;
-	border-radius:6px;
+	border-radius:10px;
 	background:#5bbfea;
 }
 
@@ -387,7 +393,7 @@ z-index: 1000;
 	background:#7cd8ff;
 	color:#fff;
 	text-align:center;
-	font-size:24px;
+	font-size:20px;
 	display:block;
 	text-decoration:none;
 }
@@ -407,12 +413,12 @@ z-index: 1000;
 
 .end .p1{
 	color:#2875d1;
-	font-size:28px;
+	font-size:25px;
 }
 
 .end .p2{
 	color:#2875d1;
-	font-size:20px;
+	font-size:18px;
 }
 
 .end .p3{
@@ -424,6 +430,7 @@ z-index: 1000;
 .end .p4{
 	color:#ff6600;
 	font-size:28px;
+	margin-top:5px;
 }
 
 .end .p5{
@@ -452,7 +459,7 @@ z-index: 1000;
 	display:inline-block;
 	color:#999999;
 	text-decoration:none;
-	font-size:20px;
+	font-size:16px;
 	text-align:center;
 	margin:20px 0 20px 0;
 	width:100%;
@@ -464,7 +471,7 @@ z-index: 1000;
 .enrough .p3, .enrough .p4{
 	width:76%;
 	position:relative;
-	left:12%;
+	left:8%;
 	text-align:left;
 }
 
@@ -472,69 +479,284 @@ z-index: 1000;
 	display:block;
 	width:20%;
 	position:absolute;
-	right:10%;
+	right:8%;
+
+}
+
+/* charge style */
+.chargeList{
+	width:90%;
+	margin-left:9%;
+}
+
+.chargeList img{
+	width:40px;
+	height:40px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+.chargeList li{
+	margin-top: 8px;
+	color: #c4c4c4;
+}
+
+.end .p6{
+	color:#ff6600;
+	font-size:20px;
+	margin-bottom: 12px;
+}
+
+.end .p7{
+	color:#ff6600;
+	font-size:20px;
+	margin-bottom: 6px;
+}
+
+.chargeList li.sel{
+	color: #ff6600;
+}
+
+.mar38{
+	margin-top:38px;
+}
+
+.chargepage{
+	top:10%;
+}
+
+.btnactivecharge{
+	margin-top:20px;
+}
+
+.phoneInput{
+	width:100%;
+	height:42px;
+	border:2px solid #bfbfbf;
+	border-radius: 8px;
+	font-size: 20px;
+	text-align: center;
+}
+
+.phoneList{
+	width:90%;
+	margin-left:5%;
+}
+
+.gold2{
+	width:49px;
+	height:50px;
+	position: absolute;
+	left:5px;
+	top:-15px;
+}
+
+.relative{
+	position: relative;
+}
+
+.resultIcon{
+	width:26%;
+	position: relative;
+	left:37%;
+}
+
+.end .p8{
+	font-size: 12px;
+	color:#999;
+}
+
+.tipsB{
+	width: 130%;
+  text-align: center;
+  margin-top: 12px;
+  color: #ff6600;
+  margin-left: -15%;
+  font-size: 12px;
+}
+
+.resultIconfail{
+	width:16%;
+	position: relative;
+	left:42%;
+}
+
+/* rule */
+.rule{
+	width:82%;
+	position:absolute;
+	left:9%;
+	top:10%;
+	font-size:18px;
+	color:#2875d1;
+}
+
+.rule h3{
+	text-align: center;
+	font-weight: normal;
+	font-size:18px;
+	line-height: 30px;
+}
+
+.rulelist{
+	margin-top:20px;
+}
+
+.rulebtn{
+	width:80%;
+	position: relative;
+	left:10%;
+
+}
+
+.mar58{
+	margin-top:58px;
+}
+
+.nofound{
+	width:86%;
+	position: absolute;
+	left:7%;
+	top:38%;
+	background: #fff;
+	border-radius: 20px;
+	padding:30px 0px 18px 0;
+}
+
+.erweima{
+	width:44%;
+	margin-left:8%;
+	display: inline-block;
+}
+
+.guanzhu{
+	width:29%;
+	margin-left:8%;
+	position: relative;
+	top:-10px;
+	display: inline-block;
+}
+
+.nofound .p8{
+	width:100%;
+	text-align: center;
+	color: #999;
+	font-size: 15px;
+
+}
+
+.renwu{
+	width:41%;
+	position: absolute;
+	left:8px;
+	top:-36%;
+
+}
+
+.pop{
+	width:74%;
+	position: absolute;
+	left:27%;
+	top:-52%;
+
+}
+
+.pop .p9, .pop .p10{
+	position: absolute;
+	width:100%;
+	text-align: center;
+	left:0;
+	color: #ff6600;
+	
+}
+
+.pop .p9{
+	top:12px;
+	font-size: 15px;
+}
+
+.pop .p10{
+	top:34px;
+	font-size: 12px;
+}
+
+/* share page */
+.shareRocket{
+	width:24%;
+	position: absolute;
+	left:0;
+	top:0;
+}
+
+.mask{
+	width:100%;
+	height:100%;
+	position: absolute;
+	left:0;
+	top:0;
+	background: #000;
+	opacity: 0.5;
+}
+
+.shareRocket{
+	position: absolute;
+	-webkit-transform: rotate(45deg);
+	-webkit-animation:shareRocketmove2 1.5s;
+	left:60%;
+    top:2%;
+    -webkit-transform: rotate(30deg);
+    z-index:1;
+}
+
+.shareRockethand{
+	width:76%;
+	position: absolute;
+	left:32%;
+	top:-14%;
+	-webkit-animation:rockhand infinite 0.8s;
+	z-index:-100;
+}
+
+.shareRocketmove{
 
 }
 
 
+@-webkit-keyframes shareRocketmove2 {
+    0%{
+       left:0;
+       top:100%;
+    }
 
+    100%{
+        left:60%;
+    top:2%;
+       -webkit-transform: rotate(30deg);
+    }
+ 
+ 
+}
 
+@-webkit-keyframes rockhand {
+    0%{
+       -webkit-transform: rotate(-35deg);
+    }
 
+    100%{
+       
+       -webkit-transform: rotate(-25deg);
+    }
+ 
+ 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.shareIcon{
+	width:56%;
+	position: absolute;
+	left:22%;
+	top:22%;
+	z-index:-50;
+}
 
 
 

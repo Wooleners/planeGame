@@ -2,7 +2,7 @@ var rocket = cc.Sprite.extend({
 	ctor: function(filename, rect) {
 		// 自定义初始化
 		this._super(filename, rect);
-
+		
 	},
 	init: function() {
 		//常量定义
@@ -24,6 +24,7 @@ var rocket = cc.Sprite.extend({
 		this.jump = parseInt(cc.winSize.height / 2.5);
 		this.jumpSY = 0;
 		this.fantan = 0; //是否被反弹
+
 		// 设置触摸的侦听事件，以便让火箭响应触摸操作
 		var touchListener = cc.EventListener.create({
 			event: cc.EventListener.TOUCH_ONE_BY_ONE, // 单次点击
@@ -47,52 +48,54 @@ var rocket = cc.Sprite.extend({
 		cc.eventManager.addListener(touchListener, this);
 	},
 	onPatternTouchBegan: function(touch, event) {
-		var __target = event.getCurrentTarget();
-		var __locationInNode = touch.getLocation();
-		var __s = __target.getContentSize();
-		var __p = __target.getPosition();
-		var __rect = cc.rect(__p.x, __p.y, __s.width, __s.height);
-		var __direction = 1; //0左1右
-		var __offsetX = 0;
-		if (cc.rectContainsPoint(__rect, __locationInNode)) {
-			var __rocket = this;
-			if (this.first) {
-				__rocket.speed = 40;
-
-			}
-			// if (__rocket.speed < 30) {
-			// 	__rocket.speed += 5;
-			// }
-			//window.game.GameLayer._progressTime = 0;
-			//window.game.GameLayer._time = window.game.GameLayer.SLOWTIME;
-			//window.game.GameLayer._pause = 0;
-			if (!__rocket.starting && this.isDown) {
-				if (__locationInNode.x < __p.x + __s.width / 2) {
-					__direction = 0;
-				} else {
-					__direction = 1;
-				}
-				__offsetX = Math.abs(__p.x + __s.width / 2 - __locationInNode.x);
+		if(window.game.GameLayer._tipsOver){
+			window.game.GameLayer._tips2.removeFromParent(!0);
+			var __target = event.getCurrentTarget();
+			var __locationInNode = touch.getLocation();
+			var __s = __target.getContentSize();
+			var __p = __target.getPosition();
+			var __rect = cc.rect(__p.x, __p.y, __s.width, __s.height);
+			var __direction = 1; //0左1右
+			var __offsetX = 0;
+			if (cc.rectContainsPoint(__rect, __locationInNode)) {
+				var __rocket = this;
 				if (this.first) {
-					
-					__offsetX = 0;
-				}
-				if(window.game.GameLayer._rockethelp){
-					window.game.GameLayer._rockethelp.removeFromParent(!0);
-					window.game.GameLayer._rockethelp = null;
-				}
-				__rocket.up(__direction, __offsetX);
-				//隐藏第一屏元素
-				window.game.GameLayer._startTimer = 1;
-				window.game.GameLayer._arrowDown.removeFromParent(!0);
-				window.game.GameLayer._tips.removeFromParent(!0);
-				window.game.GameLayer._gold1.removeFromParent(!0);
-				window.game.GameLayer._gold2.removeFromParent(!0);
-			}
-		} else {
-			return false;
-		}
+					__rocket.speed = 40;
 
+				}
+				// if (__rocket.speed < 30) {
+				// 	__rocket.speed += 5;
+				// }
+				//window.game.GameLayer._progressTime = 0;
+				//window.game.GameLayer._time = window.game.GameLayer.SLOWTIME;
+				//window.game.GameLayer._pause = 0;
+				if (!__rocket.starting && this.isDown) {
+					if (__locationInNode.x < __p.x + __s.width / 2) {
+						__direction = 0;
+					} else {
+						__direction = 1;
+					}
+					__offsetX = Math.abs(__p.x + __s.width / 2 - __locationInNode.x);
+					if (this.first) {
+						
+						__offsetX = 0;
+					}
+					if(window.game.GameLayer._rockethelp){
+						window.game.GameLayer._rockethelp.removeFromParent(!0);
+						window.game.GameLayer._rockethelp = null;
+					}
+					__rocket.up(__direction, __offsetX);
+					//隐藏第一屏元素
+					window.game.GameLayer._startTimer = 1;
+					window.game.GameLayer._arrowDown.removeFromParent(!0);
+					window.game.GameLayer._tips.removeFromParent(!0);
+					window.game.GameLayer._gold1.removeFromParent(!0);
+					window.game.GameLayer._gold2.removeFromParent(!0);
+				}
+			} else {
+				return false;
+			}
+		}
 		return true;
 	},
 	onPatternTouchEnded: function() {

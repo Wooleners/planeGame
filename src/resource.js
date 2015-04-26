@@ -10,6 +10,7 @@ var s_arrowDown = "arrowDown.png";
 var s_cash = "cash.png";
 var s_coin100 = "coin100.png";
 var s_rocketHelp = "help.png";
+var s_tips2 = "tips2.png";
 var g_resources = [
     //image
     s_bg,
@@ -23,7 +24,8 @@ var g_resources = [
     s_arrowDown,
     s_cash,
     s_coin100,
-    s_rocketHelp
+    s_rocketHelp,
+    s_tips2
     //plist
 
     //fnt
