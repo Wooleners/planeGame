@@ -7,7 +7,7 @@ var rocket = cc.Sprite.extend({
 	init: function() {
 		//常量定义
 		var STARTSPEED = 0.2;
-		var DOWNSPEED = 0.5;
+		var DOWNSPEED = 2;
 		var FIRSTHEIGHT = 2000;
 		var FIRSTDOWNSPEED = 3;
 
@@ -76,6 +76,10 @@ var rocket = cc.Sprite.extend({
 				if (this.first) {
 					
 					__offsetX = 0;
+				}
+				if(window.game.GameLayer._rockethelp){
+					window.game.GameLayer._rockethelp.removeFromParent(!0);
+					window.game.GameLayer._rockethelp = null;
 				}
 				__rocket.up(__direction, __offsetX);
 				//隐藏第一屏元素

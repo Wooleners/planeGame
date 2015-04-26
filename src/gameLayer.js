@@ -23,6 +23,7 @@ var GameLayer = cc.Layer.extend({
     _maxGold: null,     //最大金币数
     _cash: null,    //现金
     _frameRate: null,   //帧数
+    _rockethelp: null,  //火箭help纹理
     ctor: function(a) {
         this._super();
         this._context = a;
@@ -223,25 +224,32 @@ var GameLayer = cc.Layer.extend({
                 this.golds++;
                 this.createGold();
             }
+            if(this._time < 18 && !this._rockethelp){
+                var __help = this._rockethelp = new cc.Sprite(s_rocketHelp);
+                var __rocketSize = this._rocket.getContentSize();
+                __help.setAnchorPoint(0.5, 0.5);
+                
+                this._rocket.addChild(__help, 1);
+                __help.setPosition(__rocketSize.width / 2 + 20, __rocketSize.height + __help.getContentSize().height - 90);
             
+            }
         }
         this._mTimeLabel.setString(this._time);
     },
     createGoldText: function(goldBox) {
         //加载金币文案对象
-        var __goldText = cc.LabelTTF.create("+500", "Courier", 40);
+        var __goldText = new cc.Sprite(s_coin100);
         __goldText.setAnchorPoint(0.5, 0.5);
         __goldText.setPosition(goldBox.x, goldBox.y);
-        __goldText.setColor(cc.color(255, 255, 255));
         this.addChild(__goldText, 1);
-        var __Pos = cc.p(goldBox.x, goldBox.y + 300);
+        var __Pos = cc.p(goldBox.x, goldBox.y + 60);
         var __action = cc.sequence(cc.moveTo(0.6, __Pos), cc.callFunc(function() {
             __goldText.removeFromParent(!0);
         }, __goldText));
         __goldText.runAction(__action);
     },
     createGold: function() {
-        var __random = this.random(2), __face = s_gold;
+        var __random = this.random(2), __face = s_gold2;
         if(__random == 1 && this._cash){
             __face = s_cash;
             this._cash--;
