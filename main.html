@@ -89,15 +89,28 @@
                 </ul>
                 <div class="btnactive">
                     <div class="btnactivelinke">
-                        <a href="" class="btnactivelinke1">活动须知</a>
+                        <a href="rule.html" class="btnactivelinke1">活动须知</a>
                     </div>
                     
                 </div>
             </div>
-        
+        <!--分享-->
+        <div class="mask" id="mask"></div>
+        <div class="shareRocket" id="shareRocket"><div class="shareIcon"><img src="images/touxiang.jpg" /></div><img src="images/rocket.png" /><div class="shareRockethand"><img src="images/hand.png" /></div></div>
+        <div class="shareTextD" id="shareTextD">分享给好友</div>
 
     </body>
     <script type="text/javascript">
+    $(".btnBlue").click(function(){
+        $("#mask").show();
+        $("#shareRocket").show();
+        $("#shareTextD").show();
+    });
 
+    $("#mask").click(function(){
+        $("#mask").hide();
+        $("#shareRocket").hide();
+        $("#shareTextD").hide();
+    });
     </script>
 </html>

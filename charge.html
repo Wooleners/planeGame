@@ -18,7 +18,7 @@
             <div class="gameresult relative">
                 <div class="gold2"><img src="images/charge/gold.png" /></div>
                 <p class="p6">请选择要兑换的礼品</p>
-                <div class="chargeList">
+                <div class="chargeList" id="chargeList">
                     <ul>
                         <li class="sel"><img src="images/charge/sel.png" />20000 米 = 10MB 流量</li>
                         <li><img src="images/charge/unsel.png" />100000 米 = 30MB 流量</li>
@@ -36,11 +36,11 @@
                     </div>
                     
                 </div>
-                <a href="" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回</a>
+                <div class="goback" id="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回</div>
             </div>
             <div class="btnactive btnactivecharge">
                     <div class="btnactivelinke">
-                        <a href="" class="btnactivelinke1">活动须知</a>
+                        <a href="rule.html" class="btnactivelinke1">活动须知</a>
                     </div>
                     
                 </div>
@@ -52,6 +52,15 @@
 
     </body>
     <script type="text/javascript">
+    $("#chargeList li").click(function(){
+        $("#chargeList li").removeClass("sel");
+        $("#chargeList img").attr("src", "images/charge/unsel.png");
+        $(this).addClass("sel");
+        $(this).find("img").attr("src", "images/charge/sel.png");
 
+    });
+    $("#goback").click(function(){
+        history.back();
+    });
     </script>
 </html>

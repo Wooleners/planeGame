@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <p class="p5">邀请好友帮你飞，最多可兑换 60MB 流量</p>
-                <a href="" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
+                <a href="main.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
             </div>
         </div>
         <div class="end" id="end2" style="top:12%;">
@@ -119,12 +119,12 @@
                     </div>
                 </div>
                 <p class="p5">朋友帮飞的里程会计入到您的成绩</p>
-                <a href="" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
+                <a href="main.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
             </div>
         </div>
         <div class="mask" id="mask"></div>
-        <div class="shareRocket"><div class="shareIcon"><img src="images/touxiang.jpg" /></div><img src="images/rocket.png" /><div class="shareRockethand"><img src="images/hand.png" /></div></div>
-        <div></div>
+        <div class="shareRocket" id="shareRocket"><div class="shareIcon"><img src="images/touxiang.jpg" /></div><img src="images/rocket.png" /><div class="shareRockethand"><img src="images/hand.png" /></div></div>
+        <div class="shareTextD" id="shareTextD">分享给好友</div>
     </body>
     <script type="text/javascript">
     //alert(document.documentElement.clientWidth);
@@ -138,6 +138,16 @@
         }
         
     }, 1000/75);
-    
+    $(".btnBlue").click(function(){
+        $("#mask").show();
+        $("#shareRocket").show();
+        $("#shareTextD").show();
+    });
+
+    $("#mask").click(function(){
+        $("#mask").hide();
+        $("#shareRocket").hide();
+        $("#shareTextD").hide();
+    });
     </script>
 </html>

@@ -53,12 +53,12 @@ var GameLayer = cc.Layer.extend({
         this.addChild(__rocket, 1);
         //读取用户头像
         var __img = new cc.Sprite("touxiang.jpg");
-        var __imgSize = this.getContentSize();
+        var __imgSize = __img.getContentSize();
         __img.anchorX = 0.5;
         __img.anchorY = 0.5;
         
-        this.addChild(__img, -1);
-        __img.setPosition(__imgSize.width / 2 + __img.getContentSize().width / 2, 160);
+        this._rocket.addChild(__img, -1);
+        __img.setPosition(__rocketSize.width / 2 + __img.getContentSize().width / 2, 135);
         //加载倒计时bar
         var __bar = new cc.Sprite(s_bar);
         var __barSize = __bar.getContentSize();

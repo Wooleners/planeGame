@@ -34,17 +34,30 @@
                     
                 </div>
                 <div class="tipsB">邀请好友来帮飞，所获里程能继续兑换礼品</div>
-                <a href="" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
+                <a href="main.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
             </div>
           
         </div>
 
 
         </div>
-        
+        <!--分享-->
+        <div class="mask" id="mask"></div>
+        <div class="shareRocket" id="shareRocket"><div class="shareIcon"><img src="images/touxiang.jpg" /></div><img src="images/rocket.png" /><div class="shareRockethand"><img src="images/hand.png" /></div></div>
+        <div class="shareTextD" id="shareTextD">分享给好友</div>
 
     </body>
     <script type="text/javascript">
-    
+    $(".btnOrange").click(function(){
+        $("#mask").show();
+        $("#shareRocket").show();
+        $("#shareTextD").show();
+    });
+
+    $("#mask").click(function(){
+        $("#mask").hide();
+        $("#shareRocket").hide();
+        $("#shareTextD").hide();
+    });
     </script>
 </html>

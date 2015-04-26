@@ -33,7 +33,7 @@
                     </div>
                     
                 </div>
-                <a href="" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回</a>
+                <div class="goback" id="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回</div>
             </div>
           
         </div>
@@ -47,8 +47,13 @@
     $("#charge").click(function(e){
         if(!/^1[3|4|5|8][0-9]\d{4,8}$/.test($("#phone").val())){
             alert("请输入正确的手机号");
+        }else{
+            window.location.href = "success.html";
         }
-        window.location.href = "success.html";
+        
+    });
+    $("#goback").click(function(){
+        history.back();
     });
     </script>
 </html>

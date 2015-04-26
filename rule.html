@@ -30,7 +30,7 @@
                 <div class="mar58 btn btn1 rulebtn">
                         <div class="btn btn2">
                             <div class="btn btn4">
-                                <div class="btn btnBlue">
+                                <div class="btn btnBlue" id="goback">
                                 <img src="images/backicon.png" style="width:14px;" />&nbsp;返回
                                 </div>
                             </div>
@@ -40,6 +40,8 @@
         </div>
     </body>
     <script type="text/javascript">
-    
+    $("#goback").click(function(){
+        history.back();
+    });
     </script>
 </html>
