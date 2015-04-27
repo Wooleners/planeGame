@@ -7,7 +7,7 @@ var rocket = cc.Sprite.extend({
 	init: function() {
 		//常量定义
 		var STARTSPEED = 0.2;
-		var DOWNSPEED = 2;
+		var DOWNSPEED = 0.8;
 		var FIRSTHEIGHT = 2000;
 		var FIRSTDOWNSPEED = 3;
 

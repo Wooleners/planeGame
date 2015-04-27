@@ -3,12 +3,21 @@ html,body{ width: 100%; height:100%; overflow: hidden;font-family: '微软雅黑
 img{
                 width:100%;
             }
+            body{margin:0;padding:0;}
 body{
 	background:#ace6ff url("../images/loading/bg.jpg") left bottom no-repeat;
 	background-size: contain;
 }
 p,div,li,ul{margin:0;padding:0; list-style:none;}
 
+a:visited{
+	color:#fff;
+}
+.goback:visited{
+	color:#999999;
+}
+.hv{overflow: hidden;}
+.sv{overflow: auto;}
 .clearfix:after { 
 content: "." ; 
 display: block ;
@@ -18,7 +27,7 @@ visibility: hidden ;
 }
 /* loading page */
 .loading{
-	
+	background: #ace6ff;
 	width:100%;
 	height:100%;
 	position: absolute;
