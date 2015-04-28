@@ -25,6 +25,7 @@ height: 0 ;
 clear: both ;
 visibility: hidden ;
 }
+
 /* loading page */
 .loading{
 	background: #ace6ff;
@@ -48,7 +49,7 @@ visibility: hidden ;
 .ct1{
 	color: #ff6600;
 	position: absolute;
-	top:46%;
+	top:53%;
 	right: 12%;
 	font-size: 24px;
 }
@@ -56,7 +57,7 @@ visibility: hidden ;
 .ct2{
 	color: #ff6600;
 	position: absolute;
-	top:68%;
+	top:72%;
 	right: 13%;
 	font-size: 14px;
 }
@@ -531,7 +532,9 @@ z-index: 1000;
 }
 
 .chargepage{
-	top:10%;
+	margin-top:30%;
+	position: relative;
+
 }
 
 .btnactivecharge{
@@ -539,12 +542,15 @@ z-index: 1000;
 }
 
 .phoneInput{
-	width:100%;
+	width:90%;
 	height:42px;
 	border:2px solid #bfbfbf;
 	border-radius: 8px;
 	font-size: 20px;
 	text-align: center;
+	margin:0;
+	padding: 0px;
+	margin-left: 5%;
 }
 
 .phoneList{

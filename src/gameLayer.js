@@ -30,7 +30,7 @@ var GameLayer = cc.Layer.extend({
         this._super();
         this._context = a;
         this.init();
-        this.startGame();
+        
     },
     init: function() {
         this._super();
@@ -197,10 +197,7 @@ var GameLayer = cc.Layer.extend({
                 }
             }
         }
-        if(this._frameRate % 10 == 0){
-            var __maxX = cc.winSize.width;
-            var __maxY = cc.winSize.height;
-            var __pos = this._rocket.getPosition();
+        //if(this._frameRate % 10 == 0){
             var __rocketSize = this._rocket.getContentSize();
             var __leaveH = this._rocket.jumpSY + this._rocket.jump - __pos.y;
             // 按照设定的几率值，随机产生偏移值
@@ -225,7 +222,7 @@ var GameLayer = cc.Layer.extend({
                 }
                 
             }
-        }
+        //}
     },
     checkOut: function() {
         
@@ -243,13 +240,17 @@ var GameLayer = cc.Layer.extend({
                 this.golds++;
                 this.createGold();
             }
-            if(this._time < 18 && !this._rockethelp){
-                var __help = this._rockethelp = new cc.Sprite(s_rocketHelp);
-                var __rocketSize = this._rocket.getContentSize();
-                __help.setAnchorPoint(0.5, 0.5);
+            if(this._time < 10 && !this._rockethelp){
+                var __random = this.random(2);
+                if(__random == 1){
+                    var __help = this._rockethelp = new cc.Sprite(s_rocketHelp);
+                    var __rocketSize = this._rocket.getContentSize();
+                    __help.setAnchorPoint(0.5, 0.5);
+                    
+                    this._rocket.addChild(__help, 1);
+                    __help.setPosition(__rocketSize.width / 2 + 20, __rocketSize.height + __help.getContentSize().height - 90);
+                }
                 
-                this._rocket.addChild(__help, 1);
-                __help.setPosition(__rocketSize.width / 2 + 20, __rocketSize.height + __help.getContentSize().height - 90);
             
             }
         }
