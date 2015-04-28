@@ -135,7 +135,7 @@ var rocket = cc.Sprite.extend({
 		if (this.first) {
 			offsetX = 0;
 		}
-		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height);
+		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height - 100);
 
 		this.isDown = 1;
 		this.first = 0;
