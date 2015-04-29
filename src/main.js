@@ -28,6 +28,7 @@ window.onload = function() {
                     $("#loadingC").html(l);
                 }else{
                     $("#loading").hide();
+                    window.localStorage.setItem("loading", 1);
                     $("#Cocos2dGameContainer").show();
                     clearInterval(t);
                 }

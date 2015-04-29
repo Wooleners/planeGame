@@ -34,7 +34,7 @@
         </style>
     </head>
     <body> 
-        <div class="loading" id="loading">
+        <div class="loading" id="loading" style="display:none;">
             <div class="yun">
                 <img src="images/loading/yun.png" />
                 <div class="ct1">飞的高 赚得多</div>
@@ -148,5 +148,9 @@
         $("#shareRocket").hide();
         $("#shareTextD").hide();
     });
+
+    if(!window.localStorage.getItem("loading")){
+        $("#loading").show();
+    }
     </script>
 </html>

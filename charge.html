@@ -20,8 +20,8 @@
                 <p class="p6">请选择要兑换的礼品</p>
                 <div class="chargeList" id="chargeList">
                     <ul>
-                        <li class="sel"><img src="images/charge/sel.png" />20000 米 = 10MB 流量</li>
-                        <li><img src="images/charge/unsel.png" />100000 米 = 30MB 流量</li>
+                        <li require="20000"><img src="images/charge/unsel.png" />20000 米 = 10MB 流量</li>
+                        <li require="100000"><img src="images/charge/unsel.png" />100000 米 = 30MB 流量</li>
                     </ul>
                 </div>
                 <div class="resultbtn">
@@ -52,11 +52,24 @@
 
     </body>
     <script type="text/javascript">
+    var score = 22222;
+    $("#chargeList li").each(function(){
+        if(parseInt($(this).attr("require")) <= score){
+            $(this).addClass("sel");
+        }
+    });
     $("#chargeList li").click(function(){
-        $("#chargeList li").removeClass("sel");
-        $("#chargeList img").attr("src", "images/charge/unsel.png");
-        $(this).addClass("sel");
-        $(this).find("img").attr("src", "images/charge/sel.png");
+        
+        if(parseInt($(this).attr("require")) <=score){
+            
+            if($(this).find("img").attr("src") == "images/charge/sel.png"){
+                $(this).find("img").attr("src", "images/charge/unsel.png");
+            }else{
+                $("#chargeList img").attr("src", "images/charge/unsel.png");
+                $(this).find("img").attr("src", "images/charge/sel.png");
+            }
+        }
+        
 
     });
     $("#goback").click(function(){
