@@ -2,14 +2,16 @@ window.onload = function() {
     var gameScene = {};
     window.game = {};
     cc.game.onStart = function() {
-        var designSize = cc.size(640, 1136); // 设定一个默认大小，用于判断是否是高清屏幕
-        var screenSize = cc.view.getFrameSize(); // 获取浏览器窗口大小
-
         
+        var screenSize = cc.view.getFrameSize(); // 获取浏览器窗口大小
+        var designSize = cc.size(640, 1136); // 设定一个默认大小，用于判断是否是高清屏幕
         if (!cc.sys.isNative && screenSize.height <= 480) {
             // 如果不是原生设备并且浏览器窗口高度小于设定值，则使用标准大小资源图片
             designSize = cc.size(640, 960);
         } else { 
+        }
+        if(screenSize.height > 480 && screenSize.height < 550){
+            designSize = cc.size(640, 1008);
         }
         //设置图片资源目录
         cc.loader.resPath = "images";

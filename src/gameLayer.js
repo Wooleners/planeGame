@@ -148,12 +148,13 @@ var GameLayer = cc.Layer.extend({
     },
     updateTime: function() {
         this._frameRate++;
-        if (!this._rocket.first) {
-            var __y1 = BG1.getPositionY();
+        var __y1 = BG1.getPositionY();
             var __y2 = BG2.getPositionY();
             var __maxX = cc.winSize.width;
             var __maxY = cc.winSize.height;
             var __pos = this._rocket.getPosition();
+        if (!this._rocket.first) {
+            
 
             __y1 = __y1 - 1 * this._rocket.speed;
             __y2 = __y2 - 1 * this._rocket.speed;
