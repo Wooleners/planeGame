@@ -19,7 +19,6 @@ var GameBgLayer = cc.Layer.extend({
         __bg1.anchorY = 0;
         __bg1.x = 0;
         __bg1.y = 0;
-        //b.setScale(window.game.scale, window.game.scale);
         this.addChild(__bg1);
 
         var __bg2 = BG2 = new cc.Sprite(s_bg2);

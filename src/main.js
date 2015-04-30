@@ -3,19 +3,16 @@ window.onload = function() {
     window.game = {};
     cc.game.onStart = function() {
         
-        var screenSize = cc.view.getFrameSize(); // 获取浏览器窗口大小
-        var designSize = cc.size(640, 1136); // 设定一个默认大小，用于判断是否是高清屏幕
+        var screenSize = cc.view.getFrameSize(); 
+        var designSize = cc.size(640, 1136); 
         if (!cc.sys.isNative && screenSize.height <= 480) {
-            // 如果不是原生设备并且浏览器窗口高度小于设定值，则使用标准大小资源图片
             designSize = cc.size(640, 960);
         } else { 
         }
         if(screenSize.height > 480 && screenSize.height < 550){
             designSize = cc.size(640, 1008);
         }
-        //设置图片资源目录
         cc.loader.resPath = "images";
-        // 设置游戏视图按指定大小满屏显示
         cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
         cc.LoaderScene.preload(g_resources, function() {
             $("#barline").addClass("barline2");
@@ -64,10 +61,8 @@ window.onload = function() {
                                 this._score = null
                             }
                         },
-                        //初始化游戏数据
                         window.game.init();
                     size = cc.director.getWinSize();
-                    //window.game.scale = size.width / 640;
                     this._gameBgLayer = new GameBgLayer(this);
                     this.addChild(this._gameBgLayer);
                     window.game.GameLayer = this._gameLayer = new GameLayer(this);

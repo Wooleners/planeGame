@@ -1,30 +1,29 @@
 var GameLayer = cc.Layer.extend({
-    //定义常量
     TIME: 20,
     _context: null,
-    _progressTime: null, //倒计时bar
-    _pause: null, //是否停止点击
+    _progressTime: null, 
+    _pause: null, 
     _progressTimeScheduler: null,
     _updateScheduler: null,
-    _mScoreLabel: null, //得分对象
-    _mTimeLabel: null, //倒计时对象
-    _score: null, //得分
-    _rocket: null, //火箭对象
-    _time: null, //时间
-    _goldList: null, //金币对象
-    _golds: null, //出现金币数量
-    _goldText: null, //金币文案
+    _mScoreLabel: null, 
+    _mTimeLabel: null, 
+    _score: null, 
+    _rocket: null, 
+    _time: null, 
+    _goldList: null, 
+    _golds: null, 
+    _goldText: null, 
     _gold1: null,
     _gold2: null,
-    _mListener1: null,  //自定义事件
-    _arrowDown: null, //箭头
-    _tips: null,    //提示文案
-    _startTimer: null,  //是否开始计时
-    _maxGold: null,     //最大金币数
-    _cash: null,    //现金
-    _frameRate: null,   //帧数
-    _rockethelp: null,  //火箭help纹理
-    _tipsOver: null,    //可以开始起飞
+    _mListener1: null,  
+    _arrowDown: null,
+    _tips: null,    
+    _startTimer: null,  
+    _maxGold: null,     
+    _cash: null,    
+    _frameRate: null,   
+    _rockethelp: null,  
+    _tipsOver: null,    
     _tips2: null,
     ctor: function(a) {
         this._super();
@@ -51,53 +50,44 @@ var GameLayer = cc.Layer.extend({
         __rocket.x = size.width / 2 - __rocketSize.width / 2;
         __rocket.y = 30;
         this.addChild(__rocket, 1);
-        //读取用户头像
         var __img = new cc.Sprite("touxiang.jpg");
         var __imgSize = __img.getContentSize();
-        __img.anchorX = 0.5;
-        __img.anchorY = 0.5;
+        __img.anchorX =0;
+        __img.anchorY = 0;
         
         this._rocket.addChild(__img, -1);
-        __img.setPosition(__rocketSize.width / 2 + __img.getContentSize().width / 2, 135);
-        //加载倒计时bar
+        __img.setPosition(38, 105);
         var __bar = new cc.Sprite(s_bar);
         var __barSize = __bar.getContentSize();
         __bar.setAnchorPoint(0.5, 0.5);
         __bar.setPosition(-100, size.height - __barSize.height);
         this.addChild(__bar);
 
-        //加载分数bar
         var __scorebar = new cc.Sprite(s_scoreBar);
         var __scorebarSize = __bar.getContentSize();
         __scorebar.setAnchorPoint(1, 0.5);
         __scorebar.setPosition(size.width + 200, size.height - 116);
         this.addChild(__scorebar);
-        //加载成绩对象
         this._mScoreLabel = cc.LabelTTF.create("000000米", "微软雅黑", 32);
         this._mScoreLabel.setAnchorPoint(0, 0);
-
         this._mScoreLabel.setColor(cc.color(255, 255, 255));
         __scorebar.addChild(this._mScoreLabel, 1);
         this._mScoreLabel.setPosition(20, 10);
-        //加载倒计时对象
         this._mTimeLabel = cc.LabelTTF.create(20, "微软雅黑", 60);
         this._mTimeLabel.setAnchorPoint(0.5, 0.5);
         this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 6);
         this._mTimeLabel.setColor(cc.color(255, 255, 255));
         __bar.addChild(this._mTimeLabel, 1);
-        //加载提示器 
         var __tip =  this._tips = new cc.Sprite(s_tips);
         __tip.setAnchorPoint(0.5, 0.5);
         __tip.setPosition(size.width / 2, __rocketSize.height + 30 + 135);
         this.addChild(__tip);
-        //加载戳我提示器
         var __tips2 = this._tips2 = new cc.Sprite(s_tips2);
         __tips2.setAnchorPoint(0.5, 0.5);
         var __rocketPos = __rocket.getPosition();
         __tips2.setPosition(__rocketPos.x + __rocketSize.width, __rocketPos.y + __rocketSize.height + 50);
         __tips2.setOpacity(0);
         this.addChild(__tips2);
-        //加载提示器手势
         var __arr = this._arrowDown = new cc.Sprite(s_arrowDown);
         __arr.setAnchorPoint(0.5, 0.5);
         __arr.setPosition(size.width / 2, __rocketSize.height + 30 + 38);
@@ -123,7 +113,6 @@ var GameLayer = cc.Layer.extend({
             });
         var __action = cc.sequence(__arrmoveD, __arrmoveU, __action);
         __arr.runAction(cc.repeat(__action, 5));
-        //生成背景金币
         var __gold1 = this._gold1 = new cc.Sprite(s_gold);
         __tip.setAnchorPoint(0.5, 0.5);
         __gold1.x = 35;
@@ -136,15 +125,6 @@ var GameLayer = cc.Layer.extend({
         this.addChild(__gold2, 1);
         
         this.startGame();
-        // for (var a = [], b = 0; 3 > b; b++) {
-        //     //var c = cc.spriteFrameCache.getSpriteFrame("images/run" + b + ".png");
-        //     var c = new cc.SpriteFrame("images/feiting" + b + ".png", cc.rect(0, 0, 640, 196));
-        //     a.push(c)
-        // }
-        // a = new cc.Animation(a, 0.2);
-        // this._actionFly4 = cc.animate(a);
-        // this.bx.runAction(cc.repeatForever(this._actionFly4));
-
     },
     updateTime: function() {
         this._frameRate++;
@@ -171,15 +151,12 @@ var GameLayer = cc.Layer.extend({
             BG2.setPositionY(__y2);
             var __zeroNum = 0;
             var __zeroText = "";
-            //更新得分
             this._score += this._rocket.speed;
             __zeroNum = 6 - this._score.toString().split("").length;
             for (var i = 0; i < __zeroNum; i++) {
                 __zeroText += "0";
             }
             this._mScoreLabel.setString(__zeroText + this._score + "米");
-
-            //金币碰撞检测
             var __goldCount = this._goldList.length;
             if (__goldCount > 0) {
                 for(var i = 0; i < __goldCount; i++){
@@ -188,7 +165,6 @@ var GameLayer = cc.Layer.extend({
                         var __goldBox = __gold.getBoundingBox();
                         var __rocketBox = this._rocket.getBoundingBox();
                         if (cc.rectIntersectsRect(__goldBox, __rocketBox)) {
-                            //发生碰撞事件
                             __gold.removeFromParent(!0);
                             this._goldList.splice(i, 1);
                             this.createGoldText(__goldBox);
@@ -198,10 +174,8 @@ var GameLayer = cc.Layer.extend({
                 }
             }
         }
-        //if(this._frameRate % 10 == 0){
             var __rocketSize = this._rocket.getContentSize();
             var __leaveH = this._rocket.jumpSY + this._rocket.jump - __pos.y;
-            // 按照设定的几率值，随机产生偏移值
             var __temp = 2;
             var __dir = __leaveH / 2;
             //__dir > __maxX / 2 ? __maxX / 2 : __dir;
@@ -258,7 +232,6 @@ var GameLayer = cc.Layer.extend({
         this._mTimeLabel.setString(this._time);
     },
     createGoldText: function(goldBox) {
-        //加载金币文案对象
         var __goldText = new cc.Sprite(s_coin100);
         __goldText.setAnchorPoint(0.5, 0.5);
         __goldText.setPosition(goldBox.x, goldBox.y);
@@ -278,7 +251,6 @@ var GameLayer = cc.Layer.extend({
         var __gold = new cc.Sprite(__face);
         var __goldtSize = __gold.getContentSize();
         var size = cc.winSize;
-        // 按照设定的几率值，随机产生偏移值
         var __tempX = this.random(size.width - __goldtSize.width);
         var __tempY = this.random(size.height - __goldtSize.height - 250) + 100;
         __gold.anchorX = 0;
@@ -307,21 +279,19 @@ var GameLayer = cc.Layer.extend({
         cc.director.pause();
         //$("#Cocos2dGameContainer").hide();
         $("#end").show();
-        // document.getElementById("restart").style.display = "block";
-        // document.getElementById("restart").onclick = function(e){
-        //     document.getElementById("Cocos2dGameContainer").style.display = "block";
-        //     var nextScene = cc.Scene.create();
-        //     var __gameBgLayer = new GameBgLayer();
-        //     nextScene.addChild(__gameBgLayer);
-        //     var __gameBgLayer;
-        //     window.game.GameLayer = __gameBgLayer = new GameLayer();
-        //     nextScene.addChild(__gameBgLayer);
-        //     cc.director.runScene(nextScene);
-        //     cc.director.resume();
-        // }
+        //document.getElementById("restart").style.display = "block";
+        //document.getElementById("restart").onclick = function(e){
+            $(".btnOrange").click(function(){
+
+                //cc.director.runScene(new MyScene());
+                cc.director.pause();
+                cc.director.resume();
+                cc.director.runScene(new MyScene());
+                //cc.director.resume();
+                $("#end").hide();
+            });
     },
     startGame: function() {
-        // 接收自定义事件
         var __self = this;
         this.mListener1 = cc.EventListener.create({
             event: cc.EventListener.CUSTOM,
@@ -332,10 +302,7 @@ var GameLayer = cc.Layer.extend({
             }
         });
         cc.eventManager.addListener(this.mListener1, 1);
-
-        // 启动提示计时器
         this.schedule(this.updateTime);
-        //this.schedule(this.checkOut, 0.1);
         this.schedule(this.checkTime, 1);
     }
 });
