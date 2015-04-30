@@ -1,5 +1,6 @@
 var GameLayer = cc.Layer.extend({
     TIME: 20,
+    TIME2: 3,
     _context: null,
     _progressTime: null, 
     _pause: null, 
@@ -10,6 +11,7 @@ var GameLayer = cc.Layer.extend({
     _score: null, 
     _rocket: null, 
     _time: null, 
+    _time2: null,
     _goldList: null, 
     _golds: null, 
     _goldText: null, 
@@ -25,6 +27,11 @@ var GameLayer = cc.Layer.extend({
     _rockethelp: null,  
     _tipsOver: null,    
     _tips2: null,
+    _timebarStart: null,
+    _timebarTimeLabel: null,
+    _bar: null,
+    _scorebar: null,
+    _time2Action: null,
     ctor: function(a) {
         this._super();
         this._context = a;
@@ -41,6 +48,8 @@ var GameLayer = cc.Layer.extend({
         this._frameRate = 0;
         this._tipsOver = 0;
         this._time = this.TIME;
+        this._time2 = this.TIME2;
+        this._time2Action = 1;
         var __rocket = this._rocket = new rocket(s_rocket);
         __rocket.init();
         var __rocketSize = __rocket.getContentSize();
@@ -48,8 +57,10 @@ var GameLayer = cc.Layer.extend({
         __rocket.anchorX = 0;
         __rocket.anchorY = 0;
         __rocket.x = size.width / 2 - __rocketSize.width / 2;
-        __rocket.y = 30;
+        __rocket.y = -150;
         this.addChild(__rocket, 1);
+        
+        __rocket.runAction(cc.moveTo(0.5, {x:__rocket.x,y:30}));
         var __img = new cc.Sprite("touxiang.jpg");
         var __imgSize = __img.getContentSize();
         __img.anchorX =0;
@@ -57,15 +68,15 @@ var GameLayer = cc.Layer.extend({
         
         this._rocket.addChild(__img, -1);
         __img.setPosition(38, 105);
-        var __bar = new cc.Sprite(s_bar);
+        var __bar = this._bar = new cc.Sprite(s_bar);
         var __barSize = __bar.getContentSize();
-        __bar.setAnchorPoint(0.5, 0.5);
+        __bar.setAnchorPoint(0, 0.5);
         __bar.setPosition(-100, size.height - __barSize.height);
         this.addChild(__bar);
 
-        var __scorebar = new cc.Sprite(s_scoreBar);
+        var __scorebar = this._scorebar = new cc.Sprite(s_scoreBar);
         var __scorebarSize = __bar.getContentSize();
-        __scorebar.setAnchorPoint(1, 0.5);
+        __scorebar.setAnchorPoint(0, 0.5);
         __scorebar.setPosition(size.width + 200, size.height - 116);
         this.addChild(__scorebar);
         this._mScoreLabel = cc.LabelTTF.create("000000米", "微软雅黑", 32);
@@ -78,20 +89,55 @@ var GameLayer = cc.Layer.extend({
         this._mTimeLabel.setPosition(__barSize.width / 2, __barSize.height / 2 - 6);
         this._mTimeLabel.setColor(cc.color(255, 255, 255));
         __bar.addChild(this._mTimeLabel, 1);
-        var __tip =  this._tips = new cc.Sprite(s_tips);
+        var __tip =  this._tips = new cc.Sprite(s_tips3);
         __tip.setAnchorPoint(0.5, 0.5);
-        __tip.setPosition(size.width / 2, __rocketSize.height + 30 + 135);
+        __tip.setPosition(size.width / 2, __rocketSize.height + 30 + 95);
+        __tip.setOpacity(0);
         this.addChild(__tip);
+        var __tip4 =  this._tips4 = new cc.Sprite(s_tips4);
+        __tip4.setAnchorPoint(0.5, 0.5);
+        __tip4.setPosition(size.width / 2, __rocketSize.height + 30 + 35);
+        __tip4.setOpacity(0);
+        this.addChild(__tip4);
+        var __tip5 =  this._tips5 = new cc.Sprite(s_tips5);
+        __tip5.setAnchorPoint(0.5, 0.5);
+        __tip5.setPosition(size.width / 2, __rocketSize.height + 30 + -25);
+        __tip5.setOpacity(0);
+        this.addChild(__tip5);
+        var __actionTips3 = cc.sequence(cc.DelayTime.create(0.3), cc.spawn(cc.moveTo(0.5, {x:size.width / 2,y:__rocketSize.height + 30 + 195}), new cc.FadeIn(.5)),  cc.callFunc(function() {
+                var __actionTips4 = cc.sequence(cc.spawn(cc.moveTo(0.5, {x:size.width / 2,y:__rocketSize.height + 30 + 135}), new cc.FadeIn(.5)), cc.callFunc(function() {
+                    var __actionTips5 = cc.sequence(cc.DelayTime.create(0.5), cc.spawn(cc.moveTo(0.5, {x:size.width / 2,y:__rocketSize.height + 30 + 75}), new cc.FadeIn(.5)), cc.callFunc(function() {
+                
+                    }, this));
+                    __tip5.runAction(__actionTips5);
+                }, this));
+                __tip4.runAction(__actionTips4);
+            }, this));
+        __tip.runAction(__actionTips3);
         var __tips2 = this._tips2 = new cc.Sprite(s_tips2);
         __tips2.setAnchorPoint(0.5, 0.5);
         var __rocketPos = __rocket.getPosition();
-        __tips2.setPosition(__rocketPos.x + __rocketSize.width, __rocketPos.y + __rocketSize.height + 50);
+        __tips2.setPosition(__rocketPos.x + __rocketSize.width, 30 + __rocketSize.height + 50);
         __tips2.setOpacity(0);
         this.addChild(__tips2);
         var __arr = this._arrowDown = new cc.Sprite(s_arrowDown);
         __arr.setAnchorPoint(0.5, 0.5);
         __arr.setPosition(size.width / 2, __rocketSize.height + 30 + 38);
         this.addChild(__arr);
+        var __timebar2 = this._timebar2 = new cc.Sprite(s_bar2);
+        __timebar2.setAnchorPoint(0.5, 0.5);
+        __timebar2.setPosition(size.width / 2, __rocketSize.height + 30 + 155);
+        
+        this.addChild(__timebar2);
+        var __timebar2Label = this._timebarTimeLabel = cc.LabelTTF.create(3, "微软雅黑", 60);
+        __timebar2Label.setAnchorPoint(0.5, 0.5);
+        var __timebar2Size = __timebar2.getContentSize();
+        __timebar2Label.setPosition(__timebar2Size.width / 2, __timebar2Size.height / 2);
+        __timebar2Label.setColor(cc.color(255, 255, 255));
+
+        __timebar2.addChild(__timebar2Label, 0);
+        __timebar2Label.setOpacity(0);
+        __timebar2.setOpacity(0);
         var __arrPos = __arr.getPosition();
         var __startPos = cc.p(__arrPos.x, __arrPos.y - 10);
         var __arrmoveD = cc.moveTo(0.3, __startPos);
@@ -102,13 +148,18 @@ var GameLayer = cc.Layer.extend({
         var __action = cc.callFunc(function() {
                 __actionsTimes++;
                 if(__actionsTimes >= 5){
-                    __tip.runAction(new cc.FadeOut(1));
+                    var __actionTips3 = cc.sequence(cc.DelayTime.create(0.7), cc.spawn(cc.moveTo(0.2, {x:size.width / 2,y:__rocketSize.height + 30 + 165}), new cc.FadeOut(.5)), cc.callFunc(function() {
+                        __timebar2Label.runAction(new cc.FadeIn(.5));
+                        __timebar2.runAction(new cc.FadeIn(.5));
+                        __self._timebarStart = 1;
+                    }, this));
+                            __tip.runAction(__actionTips3);
+                    var __actionTips4 = cc.sequence(cc.DelayTime.create(0.4), cc.spawn(cc.moveTo(0.2, {x:size.width / 2,y:__rocketSize.height + 30 + 105}), new cc.FadeOut(.5)));
+                        __tip4.runAction(__actionTips4);
+                    var __actionTips5 = cc.sequence(cc.spawn(cc.moveTo(0.2, {x:size.width / 2,y:__rocketSize.height + 30 + 55}), new cc.FadeOut(.5)));
+                        __tip5.runAction(__actionTips5);
                     __arr.runAction(new cc.FadeOut(1));
-                    __tips2.runAction(new cc.FadeIn(1));
-                    __bar.runAction(cc.moveTo(0.5, cc.p(0, size.height - __barSize.height)));
-                    var __scorebarPos = __scorebar.getPosition();
-                    __scorebar.runAction(cc.moveTo(0.5, {x: __scorebarPos.x - 100, y: size.height - 116}));
-                    __self._tipsOver = 1;
+                    
                 }
             });
         var __action = cc.sequence(__arrmoveD, __arrmoveU, __action);
@@ -203,9 +254,28 @@ var GameLayer = cc.Layer.extend({
         
     },
     checkTime: function() {
+        if(this._timebarStart){
+            if(this._time2 > 0){
+                this._time2--;
+                
+                this._timebarTimeLabel.setString(this._time2);
+            }
+             
+        }
+        if(this._time2 <= 0 && this._time2Action){
+            this._time2Action = 0;
+            this._tips2.runAction(new cc.FadeIn(1));
+            this._bar.runAction(cc.moveTo(0.5, cc.p(20, size.height - this._bar.getContentSize().height)));
+            var __scorebarPos = this._scorebar.getContentSize();
+            this._scorebar.runAction(cc.moveTo(0.5, {x: size.width - __scorebarPos.width, y: size.height - 116}));
+            this._timebar2.runAction(new cc.FadeOut(.5));
+            this._timebarTimeLabel.runAction(new cc.FadeOut(.5));
+            this._tipsOver = 1;
+        }
         if(this._startTimer){
             this._time--;
         }
+
         if (this._time <= 0) {
             this.win();
             return;
