@@ -54,7 +54,10 @@ var rocket = cc.Sprite.extend({
 				var __rocket = this;
 				if (this.first) {
 					__rocket.speed = 40;
-
+					var event = new cc.EventCustom("FIRE");
+					event.setUserData(this);
+					cc.eventManager.dispatchEvent(event);
+					
 				}
 
 				if (!__rocket.starting && this.isDown) {
@@ -120,7 +123,7 @@ var rocket = cc.Sprite.extend({
 		if (this.first) {
 			offsetX = 0;
 		}
-		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height - 100);
+		var __startPos = cc.p(__posX + offsetX, -this.getContentSize().height);
 
 		this.isDown = 1;
 		this.first = 0;

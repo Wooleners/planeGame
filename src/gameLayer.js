@@ -59,8 +59,15 @@ var GameLayer = cc.Layer.extend({
         __rocket.x = size.width / 2 - __rocketSize.width / 2;
         __rocket.y = -150;
         this.addChild(__rocket, 1);
+
+        var __logo = new cc.Sprite(s_logo);
+        __logo.anchorX = 1;
+        __logo.anchorY = 1;
+        __logo.x = size.width - 20;
+        __logo.y = size.height - 35;
+        this.addChild(__logo, 1);
         
-        __rocket.runAction(cc.moveTo(0.5, {x:__rocket.x,y:30}));
+        __rocket.runAction(cc.moveTo(0.7, {x:__rocket.x,y:30}));
         var __img = new cc.Sprite("touxiang.jpg");
         var __imgSize = __img.getContentSize();
         __img.anchorX =0;
@@ -158,7 +165,6 @@ var GameLayer = cc.Layer.extend({
                         __tip4.runAction(__actionTips4);
                     var __actionTips5 = cc.sequence(cc.spawn(cc.moveTo(0.2, {x:size.width / 2,y:__rocketSize.height + 30 + 55}), new cc.FadeOut(.5)));
                         __tip5.runAction(__actionTips5);
-                    __arr.runAction(new cc.FadeOut(1));
                     
                 }
             });
@@ -286,7 +292,8 @@ var GameLayer = cc.Layer.extend({
                 this.createGold();
             }
             if(this._time < 10 && !this._rockethelp){
-                var __random = this.random(2);
+                var __random = this.random(3);
+                var __text = ["救命啊!", "救命吧!", "救命哈!"];
                 if(__random == 1){
                     var __help = this._rockethelp = new cc.Sprite(s_rocketHelp);
                     var __rocketSize = this._rocket.getContentSize();
@@ -294,6 +301,11 @@ var GameLayer = cc.Layer.extend({
                     
                     this._rocket.addChild(__help, 1);
                     __help.setPosition(__rocketSize.width / 2 + 20, __rocketSize.height + __help.getContentSize().height - 90);
+                    var __timebar2Label = cc.LabelTTF.create(__text[this.random(3)], "微软雅黑", 30);
+                    __timebar2Label.setAnchorPoint(0.5, 0.5);
+                    __timebar2Label.setPosition(250, 100);
+                    __timebar2Label.setColor(cc.color(255, 255, 255));
+                    __help.addChild(__timebar2Label, 1);
                 }
                 
             
@@ -341,14 +353,17 @@ var GameLayer = cc.Layer.extend({
         this._rocket.stopAllActions();
         cc.director.pause();
         //$("#Cocos2dGameContainer").hide();
-        $("#end2").show();
+        setTimeout(function(){$("#end2").addClass("endPosE");$("#end2").show();},1000);
+        $("#mask2").show();
     },
     gameover: function(){
         
         this._rocket.stopAllActions();
         cc.director.pause();
         //$("#Cocos2dGameContainer").hide();
-        $("#end").show();
+        setTimeout(function(){$("#end").addClass("endPosE");$("#end").show();},1000);
+        
+        $("#mask2").show();
         //document.getElementById("restart").style.display = "block";
         //document.getElementById("restart").onclick = function(e){
             $(".btnOrange").click(function(){
@@ -359,6 +374,7 @@ var GameLayer = cc.Layer.extend({
                 cc.director.runScene(new MyScene());
                 //cc.director.resume();
                 $("#end").hide();
+                $("#mask2").hide();
             });
     },
     startGame: function() {
@@ -371,7 +387,21 @@ var GameLayer = cc.Layer.extend({
                 __self.gameover();
             }
         });
+        this.mListener2 = cc.EventListener.create({
+            event: cc.EventListener.CUSTOM,
+            eventName: "FIRE",
+            callback: function(event){
+                var __arrowUp = this._scorebar = new cc.Sprite(s_arrowUp);
+                    __arrowUp.setAnchorPoint(0.5, 0.5);
+                    __arrowUp.setPosition(size.width / 2, size.height - 70);
+                    __arrowUp.setOpacity(0);
+                    __self.addChild(__arrowUp);
+                var __actionTips3 = cc.sequence(cc.DelayTime.create(0.7), new cc.FadeIn(0.3), cc.DelayTime.create(1), new cc.FadeOut(0.3));
+                __arrowUp.runAction(__actionTips3);
+            }
+        });
         cc.eventManager.addListener(this.mListener1, 1);
+        cc.eventManager.addListener(this.mListener2, 1);
         this.schedule(this.updateTime);
         this.schedule(this.checkTime, 1);
     }
