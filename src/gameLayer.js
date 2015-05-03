@@ -373,6 +373,7 @@ var GameLayer = cc.Layer.extend({
                 cc.director.resume();
                 cc.director.runScene(new MyScene());
                 //cc.director.resume();
+                $("#end2").hide();
                 $("#end").hide();
                 $("#mask2").hide();
             });

@@ -45,9 +45,9 @@
                     <div class="mar btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
-                                <a href="index.html" class="btn btnOrange">
+                                <div class="btn btnOrange">
                                 我要赚流量(3)
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -119,6 +119,18 @@
         $("#shareRocket").hide();
         $("#shareTextD").hide();
         $("body").addClass("sv");
+    });
+
+    $(".btnOrange").click(function(){
+        window.location.href = "index.html";
+    });
+
+    $(".btn1").bind("touchstart", function(){
+        $(this).addClass("btn10");
+    });
+
+    $(".btn1").bind("touchend", function(){
+        $(this).removeClass("btn10");
     });
     </script>
 </html>

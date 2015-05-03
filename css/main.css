@@ -309,7 +309,6 @@ visibility: hidden ;
 	width:100%;
 	background:#ff6600;
 	height:46px;
-	margin-top:26px;
 	line-height:46px;
 	color:#fff;
 	text-align:center;
@@ -324,7 +323,6 @@ visibility: hidden ;
 	width:100%;
 	background:#5999e4;
 	height:46px;
-	margin-top:26px;
 	line-height:44px;
 	color:#fff;
 	text-align:center;
@@ -332,7 +330,7 @@ visibility: hidden ;
 	cursor: pointer;
 }
 
-.mar{margin-top:18px;}
+.mar{margin-top:32px;}
 
 .tipsC{
 	width: 130%;
@@ -866,9 +864,14 @@ z-index: 1000;
  
 }
 
+.btn10 .btn3, .btn10 .btn4{
+	height:0;
+}
 
-
-
+.btn10 .btnOrange, .btn10 .btnBlue{
+	position: relative;
+	top:10px;
+}
 
 
 

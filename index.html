@@ -153,5 +153,13 @@
     if(!window.localStorage.getItem("loading")){
         $("#loading").show();
     }
+
+    $(".btn1").bind("touchstart", function(){
+        $(this).addClass("btn10");
+    });
+
+    $(".btn1").bind("touchend", function(){
+        $(this).removeClass("btn10");
+    });
     </script>
 </html>
