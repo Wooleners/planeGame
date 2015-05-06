@@ -1,5 +1,5 @@
 var GameLayer = cc.Layer.extend({
-    TIME: 20,
+    TIME: 2,
     TIME2: 3,
     _context: null,
     _progressTime: null, 
@@ -355,6 +355,17 @@ var GameLayer = cc.Layer.extend({
         //$("#Cocos2dGameContainer").hide();
         setTimeout(function(){$("#end2").addClass("endPosE");$("#end2").show();},1000);
         $("#mask2").show();
+        $(".btnOrange").click(function(){
+
+                //cc.director.runScene(new MyScene());
+                cc.director.pause();
+                cc.director.resume();
+                cc.director.runScene(new MyScene());
+                //cc.director.resume();
+                $("#end2").hide();
+                $("#end").hide();
+                $("#mask2").hide();
+            });
     },
     gameover: function(){
         
