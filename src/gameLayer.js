@@ -1,5 +1,5 @@
 var GameLayer = cc.Layer.extend({
-    TIME: 2,
+    TIME: 20,
     TIME2: 3,
     _context: null,
     _progressTime: null, 

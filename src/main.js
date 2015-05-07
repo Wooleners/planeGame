@@ -12,6 +12,8 @@ window.onload = function() {
         if(screenSize.height > 480 && screenSize.height < 550){
             designSize = cc.size(640, 1008);
         }
+        var _scale = (screenSize.height / screenSize.width);
+        designSize = cc.size(640, parseInt(640 * _scale));
         cc.loader.resPath = "images";
         cc.view.setDesignResolutionSize(designSize.width, designSize.height, cc.ResolutionPolicy.SHOW_ALL);
         cc.LoaderScene.preload(g_resources, function() {
