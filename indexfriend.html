@@ -7,10 +7,13 @@
         <script type="text/javascript" src="cocos2d-js-v3.1-lite.js" charset="uft-8"></script>
         
         <script type="text/javascript" src="src/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="src/moduleConfig.js"></script>
         <script type="text/javascript" src="src/main.js" charset="uft-8"></script>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <style>
-
+            body{
+                overflow: hidden;
+            }
             #gameCanvas{
             }
 
@@ -27,20 +30,14 @@
             #Cocos2dGameContainer{
                 display: none;
             }
-            .restart{
-                width:100%;
-                height:100%;
-                position: absolute;
-                display: none;
-            }
+            
+            
         </style>
     </head>
     <body> 
-        <div class="loading" id="loading">
+        <div class="loading" id="loading" style="display:none;">
             <div class="yun">
                 <img src="images/loading/yun.png" />
-                <div class="ct1">飞的高 赚得多</div>
-                <div class="ct2">20000米=10M流量</div>
                 <div class="goldMove">
                     <img src="images/loading/coin.png" />
                 </div>
@@ -61,48 +58,52 @@
         </div>
         <canvas id="gameCanvas"></canvas>
         <div class="end" id="end">
-            <p class="p1">哎呀,掉下来了</p>
-            <p class="p2">请在空中连续点击火箭哦</p>
+            <p class="p1 tr1">哎呀,掉下来了</p>
+            <p class="p2 tr1">请在空中连续点击火箭哦</p>
             <div class="gameresult">
-                <p class="p3">您刚才帮助路边谈男深</p>
-                <p class="p4">飞了12222米</p>
+                <div class="changeReward"><img src="images/main/lihe.png" /></div>
+                <p class="p3">您刚才帮助<span class="nick">路边谈男深</span></p>
+                <p class="p4">飞了<span id="flyMeter">12222</span>米</p>
                 <div class="resultbtn">
                     <div class="mar btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
-                                <a href="index.html" class="btn btnOrange">
+                                <div class="btn btnOrange">
                                 我也要赚流量
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <p class="p5">飞得高 赚得多 20000 米 ＝ 10MB 流量</p>
-                <a href="mainfriend.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
+                <a href="main.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
             </div>
         </div>
-        <div class="end" id="end2" style="top:12%;">
-            <p class="p1">碉堡了</p>
-            <p class="p2">只有3.6%的人能坚持20秒</p>
+        <div class="end" id="end2">
+            <p class="p1 ffde00">碉堡了</p>
+            <p class="p2 ffde00">只有<span id="rate">3.6</span>%的人能坚持20秒</p>
             <div class="gameresult">
-                <p class="p3">您刚才帮助路边谈男深</p>
-                <p class="p4">飞了12222米</p>
+                <p class="p3">您刚才帮助<span class="nick">路边谈男深</span></p>
+                <p class="p4">飞了<span id="flyMeter">12222</span>米</p>
                 <div class="resultbtn">
                     <div class="mar btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
-                                <a href="index.html" class="btn btnOrange">
+                                <div class="btn btnOrange">
                                 我也要赚流量
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                 </div>
                 <p class="p5">飞得高 赚得多 20000 米 ＝ 10MB 流量</p>
-                <a href="mainfriend.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
+                <a href="main.html" class="goback"><img src="images/end/goback.png" style="width:15px;" />&nbsp;返回首页</a>
             </div>
         </div>
+        <!--分享-->
+
+        <div class="mask2" id="mask2"></div>
     </body>
     <script type="text/javascript">
     //alert(document.documentElement.clientWidth);
@@ -116,6 +117,25 @@
         }
         
     }, 1000/75);
-    
+    $(".btnBlue").click(function(){
+        $("#mask").show();
+        $("#shareRocket").show();
+        $("#shareTextD").show();
+    });
+
+
+    if(!window.localStorage.getItem("loading")){
+        $("#loading").show();
+    }
+
+    $(".btn1").bind("touchstart", function(){
+        $(this).addClass("btn10");
+    });
+
+    $(".btn1").bind("touchend", function(){
+        $(this).removeClass("btn10");
+    });
+
+    $(".nick").html(localStorage.getItem("nick"));
     </script>
 </html>

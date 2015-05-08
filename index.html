@@ -7,6 +7,7 @@
         <script type="text/javascript" src="cocos2d-js-v3.1-lite.js" charset="uft-8"></script>
         
         <script type="text/javascript" src="src/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="src/moduleConfig.js"></script>
         <script type="text/javascript" src="src/main.js" charset="uft-8"></script>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <style>
@@ -61,14 +62,14 @@
             <p class="p2 tr1">请在空中连续点击火箭哦</p>
             <div class="gameresult">
                 <div class="changeReward"><img src="images/main/lihe.png" /></div>
-                <p class="p3">您刚才飞了12222米</p>
-                <p class="p4" style="font-size:18px;">还差1111米就能兑换流量了</p>
+                <p class="p3">您刚才飞了<span class="flyMeter">12222</span>米</p>
+                <p class="p4" style="font-size:18px;">还差<span id="needMeter">1111</span>米就能兑换流量了</p>
                 <div class="resultbtn">
                     <div class="mar btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
                                 <div class="btn btnOrange">
-                                继续赚流量(3)
+                                继续赚流量(<span id="times">3</span>)
                                 </div>
                             </div>
                         </div>
@@ -89,17 +90,17 @@
         </div>
         <div class="end" id="end2">
             <p class="p1 ffde00">碉堡了</p>
-            <p class="p2 ffde00">只有3.6%的人能坚持20秒</p>
+            <p class="p2 ffde00">只有<span id="rate">3.6</span>%的人能坚持20秒</p>
             <div class="gameresult enrough">
-                <div class="changeReward"><a href="charge.html"><img src="images/main/lihe.png" /></a></div>
-                <p class="p3">您刚才飞了12222米</p>
-                <p class="p4" style="font-size:18px;">已经可以兑换流量啦!</p>
+                <div id="changeReward" class="changeReward" style="display:none"><a href="charge.html"><img src="images/main/lihe.png" /></a></div>
+                <p class="p3">您刚才飞了<span class="flyMeter">12222</span>米</p>
+                <p id="p4" class="p4" style="font-size:18px;display:none">已经可以兑换流量啦!</p>
                 <div class="resultbtn">
                     <div class="mar btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
                                 <div class="btn btnOrange">
-                                继续赚流量(3)
+                                继续赚流量(<span id="times">3</span>)
                                 </div>
                             </div>
                         </div>

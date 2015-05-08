@@ -6,46 +6,66 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
         
         <script type="text/javascript" src="src/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="src/moduleConfig.js"></script>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <style>
+        
         .main{float:left;}
         .flylist{
             float:left;
         }
         </style>
+        <script type="text/javascript">
+        var urlGet = function(key)
+        {
+            var aQuery = window.location.href.split("?");//取得Get参数
+            if(aQuery.length > 1)
+            {
+                var aBuf = aQuery[1].split("&");
+                for(var i=0, iLoop = aBuf.length; i<iLoop; i++)
+                {
+                    var aTmp = aBuf[i].split("=");//分离key与Value
+                    if(aTmp[0] == key){
+                        return aTmp[1];
+                    }
+                    
+                }
+            }
+            return null;
+        };
+        var token = urlGet('token');
+        localStorage.setItem("token", token);
+        </script>
     </head>
     <body style="overflow:auto;"> 
-        <div class="main">
-            <div class="logo">
-                <img src="images/main/logo.png" />
-            </div>
-            <div class="yunmain">
-                <img src="images/loading/yun.png" />
-                <div class="ct1">飞的高 赚得多</div>
-                <div class="ct2">20000米=10M流量</div>
-                <div class="goldMove">
-                    <img src="images/loading/coin.png" />
+        <div class="indexPageContent">
+            <div cxlass="main">
+                <div class="logo">
+                    <img src="images/main/logo.png" />
                 </div>
-                
-            </div>
-            <div class="mainContent">
-                <div class="tou">
-                    <img src="images/touxiang.jpg" />
+                <div class="yunmain">
+                    <img src="images/loading/yun.png" />
+                    <div class="goldMove">
+                        <img src="images/loading/coin.png" />
+                    </div>
+                    
                 </div>
-                <div class="record">
-                    <p style="padding-top:20px;">路边摊男生</p>
-                    <p>一共飞行了16888米</p>
-                    <p>还差 10000 米就能换取流量了哦！</p>
-                </div>
-                <!--div class="lihe">
-                    <img src="images/main/lihe.png" />
-                </div-->
-                <div class="mar btn btn1">
+                <div class="mainContent">
+                    <div class="tou">
+                        <img id="icon" src="images/touxiang.jpg" />
+                    </div>
+                    <div class="record">
+                        <p style="padding-top:20px;" class="nickname">路边摊男生</p>
+                        <p>一共飞行了<span id="totalMeter">16888</span>米</p>
+                        <p>还差 <span id="needMeter">10000</span> 米就能换取流量了哦！</p>
+                    </div>
+
+                    <div class="mar btn btn1">
                     <div class="btn btn2">
                         <div class="btn btn3">
-                            <a href="indexfriend.html" class="btn btnOrange">
+                            <div class="btn btnOrange">
                             帮 ta 赚流量
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,55 +73,168 @@
                 <div class="mar btn btn1">
                     <div class="btn btn2">
                         <div class="btn btn4">
-                            <a href="index.html" class="btn btnBlue">
+                            <div class="btn btnBlue">
                             我也要赚流量
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-            </div>
+                </div>
 
-            </div>
-            <div class="flylist">
-                <div class="flytip">余文苦男神最近的飞行成绩</div>
-                <ul>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>么么哒么么帮ta飞了1200米</p>
-                    </li>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>余文苦帮ta飞了4500米</p>
-                    </li>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>看你个头2015帮ta飞了2900米</p>
-                    </li>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>余文苦帮ta飞了4500米</p>
-                    </li>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>看你个头2015帮ta飞了2900米</p>
-                    </li>
-                    <li>
-                        <img src="images/touxiang.jpg" />
-                        <p>看你个头2015帮ta飞了2900米</p>
-                    </li>
-                </ul>
-                <div class="btnactive">
-                    <div class="btnactivelinke">
-                        <a href="" class="btnactivelinke1">活动须知</a>
+                </div>
+                <div class="flylist">
+                    <div class="flytip"><span class="nickname">路边摊男生</span>最近的飞行成绩</div>
+                    <ul id="friendlist">
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>么么哒么么帮ta飞了1200米</p>
+                        </li>
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>余文苦帮ta飞了4500米</p>
+                        </li>
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>看你个头2015帮ta飞了2900米</p>
+                        </li>
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>余文苦帮ta飞了4500米</p>
+                        </li>
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>看你个头2015帮ta飞了2900米</p>
+                        </li>
+                        <li>
+                            <img src="images/touxiang.jpg" />
+                            <p>看你个头2015帮ta飞了2900米</p>
+                        </li>
+                    </ul>
+                    <div class="btnactive">
+                        <div class="btnactivelinke">
+                            <a href="rule.html" class="btnactivelinke1">活动须知</a>
+                        </div>
+                        
                     </div>
-                    
                 </div>
             </div>
-        
 
     </body>
     <script type="text/javascript">
+    $(".btnBlue").click(function(){
+        window.location.href = "index.html";
+    });
 
+    $(".btnOrange").click(function(){
+        var _getTimesUrl = URL + "/Pingan/WXGame/afzz/act/getRestTimes";
+
+        $.ajax({
+           async:false,
+           url: _getTimesUrl,
+           type: "GET",
+           dataType: 'jsonp',
+           jsonp: 'jsoncallback',
+           data: {"token": localStorage.getItem("token")},
+           timeout: 5000,
+           success: function (json) {
+                if(json && json.res == 1){
+                    if(json.times > 0){
+                        window.location.href = "indexfriend.html";
+                    }else{
+                        alert("您今天的飞行次数已经用完,请明天在来");
+                    }
+                }else if(json.err){
+                    alert(json.err);
+                }
+                
+                
+           },
+           complete: function(XMLHttpRequest, textStatus){
+            
+           },
+           error: function(xhr){
+            alert("请求出错(请检查相关度网络状况.)");
+           }
+        });
+        
+    });
+
+    $(".btn1").bind("touchstart", function(){
+        $(this).addClass("btn10");
+    });
+
+    $(".btn1").bind("touchend", function(){
+        $(this).removeClass("btn10");
+    });
+
+    var _getInfoUrl = URL + "/Pingan/WXGame/afzz/act/getInfo";
+
+    $.ajax({
+       async:false,
+       url: _getInfoUrl,
+       type: "GET",
+       dataType: 'jsonp',
+       jsonp: 'jsoncallback',
+       data: {"token": localStorage.getItem("token")},
+       timeout: 5000,
+       success: function (json) {
+            if(json && json.res == 1){
+                if(json.id){
+                    localStorage.setItem("id", json.id);
+                }
+                $("#icon").attr("src", json.icon);
+                $("#nickname").html(json.nick);
+                localStorage.setItem("nick", json.nick);
+                $("#totalMeter").html(json.total);
+                localStorage.setItem("total", json.total);
+                $("#playTimes").html(json.times);
+                $("#needMeter").html(json.need);
+            }else if(json.err){
+                alert(json.err);
+            }
+            
+       },
+       complete: function(XMLHttpRequest, textStatus){
+        
+       },
+       error: function(xhr){
+        alert("请求出错(请检查相关度网络状况.)");
+       }
+    });
+
+    var _getHistoryUrl = URL + "/Pingan/WXGame/afzz/act/getHistory";
+
+    $.ajax({
+       async:false,
+       url: _getHistoryUrl,
+       type: "GET",
+       dataType: 'jsonp',
+       jsonp: 'jsoncallback',
+       data: {"token": localStorage.getItem("token"), "id": localStorage.getItem("id")},
+       timeout: 5000,
+       success: function (json) {
+            if(json && json.res == 1){
+                var _html = "";
+                for(var i = 0; i < json.length; i++){
+                    if(json[i]){
+                        _html += '<li>';
+                        _html += '<img src="' + json[i].icon + '" />';
+                        _html += '<p>' + json[i].nick + '帮ta飞了' + json[i].num + '米</p>';
+                        _html += '</li>';
+                    }
+                    
+                }
+                $("#friendlist").html(_html);
+            }else if(json.err){
+                alert(json.err);
+            }
+       },
+       complete: function(XMLHttpRequest, textStatus){
+        
+       },
+       error: function(xhr){
+        alert("请求出错(请检查相关度网络状况.)");
+       }
+    });
     </script>
 </html>

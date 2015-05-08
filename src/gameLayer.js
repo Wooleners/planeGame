@@ -353,31 +353,100 @@ var GameLayer = cc.Layer.extend({
         this._rocket.stopAllActions();
         cc.director.pause();
         //$("#Cocos2dGameContainer").hide();
-        setTimeout(function(){$("#end2").addClass("endPosE");$("#end2").show();},1000);
-        $("#mask2").show();
-        $(".btnOrange").click(function(){
-
-                //cc.director.runScene(new MyScene());
-                cc.director.pause();
-                cc.director.resume();
-                cc.director.runScene(new MyScene());
-                //cc.director.resume();
-                $("#end2").hide();
-                $("#end").hide();
-                $("#mask2").hide();
-            });
+        this.postResult(1);
+        
     },
     gameover: function(){
         
         this._rocket.stopAllActions();
         cc.director.pause();
         //$("#Cocos2dGameContainer").hide();
-        setTimeout(function(){$("#end").addClass("endPosE");$("#end").show();},1000);
+        this.postResult(0);
+    },
+    postResult: function(result){
+        var _saveScoreUrl = URL + "/Pingan/WXGame/afzz/act/saveScore";
+
+        $.ajax({
+           async:false,
+           url: _saveScoreUrl,
+           type: "GET",
+           dataType: 'jsonp',
+           jsonp: 'jsoncallback',
+           data: {"token":localStorage.getItem("token"), "help_id": localStorage.getItem("id"), "distance": this._score, "second": this._time},
+           timeout: 5000,
+           success: function (json) {
+                if(json){
+                    if(result){
+
+                        $("#end2").addClass("endPosE");
+                        $("#end2").show();
+                        $("#rate").html(json.rate);
+                    }else{
+                        $("#end").addClass("endPosE");
+                        $("#end").show();
+                    }
+                    $(".flyMeter").html(json.score);
+                    $("#needMeter").html(json.need);
+                    if(json.need == 0){
+                        $("#changeReward").show();
+                        $("#p4").show();
+                    }
+
+                    $(".times").html(json.times);
+                    $("#mask2").show();
+                    $(".btnOrange").click(function(){
+                        var _getTimesUrl = URL + "/Pingan/WXGame/afzz/act/getRestTimes";
+
+                        $.ajax({
+                           async:false,
+                           url: _getTimesUrl,
+                           type: "GET",
+                           dataType: 'jsonp',
+                           jsonp: 'jsoncallback',
+                           data: {"token": localStorage.getItem("token")},
+                           timeout: 5000,
+                           success: function (json) {
+                                if(json && json.res == 1){
+                                    if(json.times > 0){
+                                        //cc.director.runScene(new MyScene());
+                                        cc.director.pause();
+                                        cc.director.resume();
+                                        cc.director.runScene(new MyScene());
+                                        //cc.director.resume();
+                                        $("#end2").hide();
+                                        $("#end").hide();
+                                        $("#mask2").hide();
+                                        //如果是绑飞点击该按钮则是自己飞
+                                        //window.location.href = "main.html?token=" + localStorage.getItem("token");
+                                    }else{
+                                        alert("您今天的飞行次数已经用完,请明天在来");
+                                    }
+                                }else if(json.err){
+                                    alert(json.err);
+                                }
+                           },
+                           complete: function(XMLHttpRequest, textStatus){
+                            
+                           },
+                           error: function(xhr){
+                            alert("请求出错(请检查相关度网络状况.)");
+                           }
+                        });
+                        
+                    });
+                }
+                
+           },
+           complete: function(XMLHttpRequest, textStatus){
+            
+           },
+           error: function(xhr){
+            alert("请求出错(请检查相关度网络状况.)");
+           }
+        });
         
         $("#mask2").show();
-        //document.getElementById("restart").style.display = "block";
-        //document.getElementById("restart").onclick = function(e){
-            $(".btnOrange").click(function(){
+        $(".btnOrange").click(function(){
 
                 //cc.director.runScene(new MyScene());
                 cc.director.pause();

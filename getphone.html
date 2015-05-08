@@ -46,7 +46,38 @@
         if(!/^1[3|4|5|8][0-9]\d{4,8}$/.test($("#phone").val())){
             alert("请输入正确的手机号");
         }else{
-            window.location.href = "success.html";
+            var _getPrizeUrl = URL + "/Pingan/WXGame/afzz/act/getPrize";
+
+            $.ajax({
+               async:false,
+               url: _getPrizeUrl,
+               type: "GET",
+               dataType: 'jsonp',
+               jsonp: 'jsoncallback',
+               data: {"token": localStorage.getItem("token"), "prize_id": localStorage.getItem("prize")},
+               timeout: 5000,
+               success: function (json) {
+                    if(json && json.res == 1){
+                        if(json.prize){
+                            window.location.href = "success.html";
+                        }else{
+                            window.location.href = "fail.html";
+                        }
+                        
+                    }else if(json.err){
+                        alert(json.err);
+                    }
+                    
+                    
+               },
+               complete: function(XMLHttpRequest, textStatus){
+                
+               },
+               error: function(xhr){
+                alert("请求出错(请检查相关度网络状况.)");
+               }
+            });
+            
         }
         
     });

@@ -14,7 +14,7 @@
     <body style="overflow:auto;"> 
         <div class="main">
             <div class="end chargepage" id="end" style="display:block;">
-            <p class="p1">您有22399米里程</p>
+            <p class="p1">您有<span id="totalMeter">22399</span>米里程</p>
             <div class="gameresult relative">
                 <div class="gold2"><img src="images/charge/gold.png" /></div>
                 <p class="p6">请选择要兑换的礼品</p>
@@ -28,9 +28,9 @@
                     <div class="mar38 btn btn1">
                         <div class="btn btn2">
                             <div class="btn btn3">
-                                <a href="getphone.html" class="btn btnOrange">
+                                <div class="btn btnOrange">
                                 确认兑换
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,5 +83,40 @@
     $(".btn1").bind("touchend", function(){
         $(this).removeClass("btn10");
     });
+
+    $("#totalMeter").html(localStorage.getItem("total"));
+
+
+    var _prizeInfoUrl = URL + "/Pingan/WXGame/afzz/act/prizeInfo";
+    $(".btnOrange").bind("click", function(){
+        $.ajax({
+           async:false,
+           url: _prizeInfoUrl,
+           type: "GET",
+           dataType: 'jsonp',
+           jsonp: 'jsoncallback',
+           data: {"token": localStorage.getItem("token")},
+           timeout: 5000,
+           success: function (json) {
+                if(json && json.res == 1){
+                    if(json.prize_id1){
+                        localStorage.setItem("prize", json.prize_id1);
+                    }else if(json.prize_id2){
+                        localStorage.setItem("prize", json.prize_id2);
+                    }
+                    
+                    window.location.href = "getphone.html";
+                }
+                
+           },
+           complete: function(XMLHttpRequest, textStatus){
+            
+           },
+           error: function(xhr){
+            alert("请求出错(请检查相关度网络状况.)");
+           }
+        });
+    });
+    
     </script>
 </html>
